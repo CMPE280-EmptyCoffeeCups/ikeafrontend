@@ -1,0 +1,22 @@
+body {
+    font-family: 'Raleway', sans-serif;
+    /*font-family: 'Roboto', sans-serif;*/
+    /*font-family: 'Archivo Black', sans-serif;*/
+}
+
+.App {
+    text-align: center;
+}
+
+.header {
+    font-size: 20px;
+}
+
+.landing-page {
+    position: relative;
+}
+
+.landing-page-img {
+    width: 100%;
+}
+
