@@ -5,6 +5,7 @@ import {withStyles} from 'material-ui/styles';
 import * as ApiClient from "../../api/ApiClient";
 import Logo from "./Logo";
 
+import ikea2 from './ikea2.mp4';
 import Login from "./Login";
 import SignUp from "./SignUp";
 
@@ -61,11 +62,9 @@ class LandingPage extends Component {
         return (
             <div className={classes.root}>
                 <div>
-                    <img
-                        className="landing-page-img"
-                        src={'./images/desktop/gen/landing_desktop.jpg'}
-                        alt="Welcome to IKEA"
-                    />
+                    <video className='videoTag' autoPlay loop>
+                        <source src={ikea2} type='video/mp4'/>
+                    </video>
                     <Logo/>
                     <Login handleDoLogin={this.handleDoLogin}/>
                     <SignUp/>
