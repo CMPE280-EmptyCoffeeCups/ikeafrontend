@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import { Route, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
-import Login from "./Login";
+import {withStyles} from 'material-ui/styles';
+
 import * as ApiClient from "../../api/ApiClient";
 import Logo from "./Logo";
-import Welcome from './Welcome';
+
+import Login from "./Login";
+import SignUp from "./SignUp";
 
 const styles = theme => ({
     root: {
@@ -39,13 +40,13 @@ class LandingPage extends Component {
 
                 console.log(status);
 
-                if(status === 200){
+                if (status === 200) {
                     console.log("hello");
                     this.setState({
                         userLoggedIn: true
                     });
                     this.props.history.push("/welcome");
-                } else if(status === 401){
+                } else if (status === 401) {
                     this.setState({
                         authError: true
                     });
@@ -59,41 +60,19 @@ class LandingPage extends Component {
 
         return (
             <div className={classes.root}>
-
-                <Route
-                    exact
-                    path="/"
-                    render = {() => (
-                        <div>
-                            <img
-                                className="landing-page-img"
-                                src={'./images/desktop/gen/landing_desktop.jpg'}
-                                alt="Welcome to IKEA"
-                            />
-                            <Logo/>
-                            <Login handleDoLogin={this.handleDoLogin}/>
-                        </div>
-                    )}
-                />
-
-                <Route
-                    exact
-                    path="/welcome"
-                    render = {() => (
-                        <div>
-                            <img
-                                className="landing-page-img"
-                                src={'./images/desktop/gen/landing_desktop.jpg'}
-                                alt="Welcome to IKEA"
-                            />
-                            <Logo/>
-                            <Welcome/>
-                        </div>
-                    )}
-                />
-
+                <div>
+                    <img
+                        className="landing-page-img"
+                        src={'./images/desktop/gen/landing_desktop.jpg'}
+                        alt="Welcome to IKEA"
+                    />
+                    <Logo/>
+                    <Login handleDoLogin={this.handleDoLogin}/>
+                    <SignUp/>
+                </div>
             </div>
         )
     }
 }
-export default withRouter(withStyles(styles)(LandingPage));
+
+export default withStyles(styles)(LandingPage);
