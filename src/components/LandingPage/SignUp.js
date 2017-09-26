@@ -35,11 +35,11 @@ const styles = theme => ({
     }
 });
 
-class Login extends Component {
+class SignUp extends Component {
 
     static propTypes = {
-        handleDoLogin: PropTypes.func.isRequired,
-        classes: PropTypes.object.isRequired
+        handleDoLogin: PropTypes.func,
+        classes: PropTypes.object
     };
     handleSubmit = () => {
         const {email, password} = this.state;
@@ -87,7 +87,7 @@ class Login extends Component {
                     <Grid item md={4} sm={10} xs={10}>
                         <Paper className={classes.paper} elevation={20}>
                             <Typography type="display1" gutterBottom>
-                                Login
+                                Sign Up
                             </Typography>
                             <FormGroup>
                                 <FormControl>
@@ -121,7 +121,7 @@ class Login extends Component {
                                         className={classes.button}
                                         raised
                                         color="accent"
-                                        label="Submit"
+                                        label="Sign Up"
                                         onClick={(event) => {
                                             this.handleSubmit();
                                         }
@@ -142,4 +142,4 @@ class Login extends Component {
     }
 }
 
-export default withStyles(styles)(Login);
+export default withStyles(styles)(SignUp);
