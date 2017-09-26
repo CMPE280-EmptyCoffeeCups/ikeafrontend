@@ -6,6 +6,9 @@ import Login from "./Login";
 import * as ApiClient from "../../api/ApiClient";
 import Logo from "./Logo";
 import Welcome from './Welcome';
+import ikea2 from './ikea2.mp4';
+
+
 
 const styles = theme => ({
     root: {
@@ -53,7 +56,6 @@ class LandingPage extends Component {
 
             });
     };
-
     render() {
         const classes = this.props;
 
@@ -65,22 +67,20 @@ class LandingPage extends Component {
                     path="/"
                     render = {() => (
                         <div>
-                            <img
-                                className="landing-page-img"
-                                src={'./images/desktop/gen/landing_desktop.jpg'}
-                                alt="Welcome to IKEA"
-                            />
+                            <video className='videoTag' autoPlay loop>
+                                <source src={ikea2} type='video/mp4' />
+                            </video>
+
                             <Logo/>
                             <Login handleDoLogin={this.handleDoLogin}/>
                         </div>
                     )}
                 />
 
-                <Route
-                    exact
-                    path="/welcome"
-                    render = {() => (
+                <Route exact path="/welcome" render = {() =>
+                    (
                         <div>
+
                             <img
                                 className="landing-page-img"
                                 src={'./images/desktop/gen/landing_desktop.jpg'}
@@ -91,6 +91,7 @@ class LandingPage extends Component {
                         </div>
                     )}
                 />
+
 
             </div>
         )
