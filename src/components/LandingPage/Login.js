@@ -21,7 +21,7 @@ const styles = theme => ({
         top: '30%',
         width: '25%',
         position: 'absolute',
-        backgroundColor: 'rgba(255, 255, 255, 0.9)'
+        backgroundColor: 'rgba(255, 255, 255, 0.5)'
     },
     button: {
         backgroundColor: '#00319b',

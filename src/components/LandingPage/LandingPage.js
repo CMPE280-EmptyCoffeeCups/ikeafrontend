@@ -9,6 +9,7 @@ import Welcome from './Welcome';
 import ikea2 from './ikea2.mp4';
 
 
+
 const styles = theme => ({
     root: {
         marginTop: theme.spacing.unit * 3,
@@ -69,22 +70,17 @@ class LandingPage extends Component {
                             <video className='videoTag' autoPlay loop>
                                 <source src={ikea2} type='video/mp4' />
                             </video>
-                            {/*<video id="background-video" loop autoPlay>*/}
-                                {/*<source src={this.state.videoURL} type="video/mp4" />*/}
-                                {/*<source src={this.state.videoURL} type="video/ogg" />*/}
-                                {/*Your browser does not support the video tag.*/}
-                            {/*</video>*/}
+
                             <Logo/>
                             <Login handleDoLogin={this.handleDoLogin}/>
                         </div>
                     )}
                 />
 
-                <Route
-                    exact
-                    path="/welcome"
-                    render = {() => (
+                <Route exact path="/welcome" render = {() =>
+                    (
                         <div>
+
                             <img
                                 className="landing-page-img"
                                 src={'./images/desktop/gen/landing_desktop.jpg'}
@@ -95,6 +91,7 @@ class LandingPage extends Component {
                         </div>
                     )}
                 />
+
 
             </div>
         )
