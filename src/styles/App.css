@@ -19,4 +19,14 @@ body {
 .landing-page-img {
     width: 100%;
 }
+.videoTag{
+
+    height: auto;
+    width:auto;
+
+    float: left;
+    top: 0;
+    padding: 0;
+    position: fixed;
+}
 

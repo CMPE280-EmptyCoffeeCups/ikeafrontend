@@ -6,6 +6,8 @@ import Login from "./Login";
 import * as ApiClient from "../../api/ApiClient";
 import Logo from "./Logo";
 import Welcome from './Welcome';
+import ikea2 from './ikea2.mp4';
+
 
 const styles = theme => ({
     root: {
@@ -53,7 +55,6 @@ class LandingPage extends Component {
 
             });
     };
-
     render() {
         const classes = this.props;
 
@@ -65,11 +66,14 @@ class LandingPage extends Component {
                     path="/"
                     render = {() => (
                         <div>
-                            <img
-                                className="landing-page-img"
-                                src={'./images/desktop/gen/landing_desktop.jpg'}
-                                alt="Welcome to IKEA"
-                            />
+                            <video className='videoTag' autoPlay loop>
+                                <source src={ikea2} type='video/mp4' />
+                            </video>
+                            {/*<video id="background-video" loop autoPlay>*/}
+                                {/*<source src={this.state.videoURL} type="video/mp4" />*/}
+                                {/*<source src={this.state.videoURL} type="video/ogg" />*/}
+                                {/*Your browser does not support the video tag.*/}
+                            {/*</video>*/}
                             <Logo/>
                             <Login handleDoLogin={this.handleDoLogin}/>
                         </div>
