@@ -31,3 +31,88 @@ body {
     position: fixed;
 }
 
+
+.container{
+    height:100% ;
+    width:100% !important;
+    top: 0;
+    padding: 0;
+    position: fixed;
+
+}
+.imageLayout{
+    width: 100% !important;
+}
+.imageContainer
+{
+    float: left;
+    padding:0;
+    width:260px;
+    height:700px;
+    overflow: hidden;
+    -moz-transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    z-index: -1;
+    position: relative; /*Makes the text go to the back if you dont have this*/
+}
+.imageStyle
+{
+    position:relative;
+    max-height: 100%;
+    -moz-transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    z-index: -1;
+}
+.imageContainer:hover img {
+    -moz-transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+
+}
+.imageContainer:hover p{
+    font-size:2.5em;
+    font-weight: bolder;
+
+}
+.imageLayout:hover > div {
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px);
+    filter:brightness(0.3);
+}
+
+.imageLayout:hover > div:hover {
+    -webkit-filter: blur(0px);
+    -moz-filter: blur(0px);
+    -o-filter: blur(0px);
+    -ms-filter: blur(0px);
+    filter: blur(0px);
+}
+.textWrapper
+{
+    position:absolute;/* absolute position (so we can position it where we want)*/
+    bottom:60%; /* position will be in the middle */
+    top:40%;
+    width:100%;
+    height:150px;
+    /* styling below */
+    background-color: black;
+
+    opacity:0.5; /* transparency */
+    z-index: 1;
+}
+
+p {
+    padding:10px;
+    z-index: 2;
+    font-size: 35px;
+    color: white;
+    text-align: center;
+    font-weight: bold !important;
+    font-family: sans-serif;
+    opacity: 1;
+}

@@ -1,53 +1,55 @@
-import React, {Component} from 'react';
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
+import bedroom from '../../images/bedroom.jpg';
+import living_room from '../../images/living_room.jpg';
+import kitchen from '../../images/kitchen.jpg';
+import bathroom from '../../images/bathroom.jpg';
+import outdoor from '../../images/outdoor.jpg';
+import '../../styles/App.css';
 
-import Grid from 'material-ui/Grid'
-import Paper from 'material-ui/Paper';
-import Typography from 'material-ui/Typography';
-import {withStyles} from 'material-ui/styles';
+function CenteredGrid(props) {
+    return (
 
-const styles = theme => ({
-    root: {
-        flexGrow: 1,
-        marginTop: 30,
-    },
-    paper: {
-        padding: 32,
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
-        top: '30%',
-        width: '25%',
-        position: 'absolute',
-        backgroundColor: 'rgba(255, 255, 255, 0.9)'
-    }
-});
+            <div className="container">
+                <div className="imageLayout">
+                <div className="imageContainer">
+                    <img src={bedroom} className="imageStyle"/>
+                    <div className="textWrapper">
+                        <p>Bedroom</p>
+                    </div>
+                </div>
+                <div className="imageContainer" >
+                    <img src={living_room} className="imageStyle" />
+                    <div className="textWrapper">
+                        <p>Living Room</p>
+                    </div>
+                </div>
+                <div className="imageContainer">
+                    <img src={kitchen}  className="imageStyle"/>
+                    <div className="textWrapper">
+                        <p>Kitchen</p>
+                    </div>
+                </div>
+                <div className="imageContainer">
+                    <img src={outdoor}  className="imageStyle"/>
+                    <div className="textWrapper">
+                        <p>Outdoor</p>
+                    </div>
+                </div>
+                <div className="imageContainer">
+                    <img src={bathroom}  className="imageStyle"/>
+                    <div className="textWrapper">
+                        <p>Bathroom</p>
+                    </div>
+                </div>
+                </div>
+                </div>
 
-class Login extends Component {
+    );
 
-    static propTypes = {
-        classes: PropTypes.object.isRequired
-    };
-
-
-    render() {
-        const classes = this.props.classes;
-
-        return (
-            <div className={classes.root}>
-                <Grid container justify="center">
-                    <Paper className={classes.paper} elevation={20}>
-                        <Typography type="display3" gutterBottom>
-                            Welcome to IKEA
-                        </Typography>
-                        <Typography type="display1" gutterBottom>
-                            ... More features to come...
-                        </Typography>
-                    </Paper>
-                </Grid>
-            </div>
-
-        );
-    }
 }
+CenteredGrid.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
 
-export default withStyles(styles)(Login);
+export default (CenteredGrid);

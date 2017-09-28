@@ -7,6 +7,7 @@ import * as ApiClient from "../../api/ApiClient";
 import Logo from "./Logo";
 import Welcome from './Welcome';
 import ikea2 from './ikea2.mp4';
+import '../../styles/App.css';
 
 
 
@@ -79,16 +80,13 @@ class LandingPage extends Component {
 
                 <Route exact path="/welcome" render = {() =>
                     (
-                        <div>
+                        <div >
 
-                            <img
-                                className="landing-page-img"
-                                src={'./images/desktop/gen/landing_desktop.jpg'}
-                                alt="Welcome to IKEA"
-                            />
-                            <Logo/>
                             <Welcome/>
+
                         </div>
+
+
                     )}
                 />
 
