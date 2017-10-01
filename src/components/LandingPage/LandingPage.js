@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import {withStyles} from 'material-ui/styles';
 
 import * as ApiClient from "../../api/ApiClient";
-import Logo from "./Logo";
+
 
 import ikea2 from './ikea2.mp4';
-import Login from "./Login";
-import SignUp from "./SignUp";
+
+import Logo from "./Logo";
+import LandingActions from "./LandingActions";
 
 const styles = theme => ({
     root: {
@@ -17,11 +18,13 @@ const styles = theme => ({
     flex: {
         flex: 1,
     },
-    menuButton: {
-        marginLeft: 10,
-        marginRight: 20,
-        backgroundImage: './images/desktop/gen/logo.svg'
-    },
+    video : {
+        height: 'auto',
+        width:'100%',
+        top: 0,
+        padding: 0,
+        position: 'absolute'
+    }
 });
 
 class LandingPage extends Component {
@@ -62,12 +65,13 @@ class LandingPage extends Component {
         return (
             <div className={classes.root}>
                 <div>
-                    <video className='videoTag' autoPlay loop>
+                    <video className="videoTag" autoPlay loop>
                         <source src={ikea2} type='video/mp4'/>
                     </video>
                     <Logo/>
-                    <Login handleDoLogin={this.handleDoLogin}/>
-                    <SignUp/>
+                    <LandingActions/>
+                    {/*<Login handleDoLogin={this.handleDoLogin}/>*/}
+                    {/*<SignUp/>*/}
                 </div>
             </div>
         )
