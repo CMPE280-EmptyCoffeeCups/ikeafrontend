@@ -10,36 +10,29 @@ import Typography from 'material-ui/Typography';
 import {withStyles} from 'material-ui/styles';
 
 const styles = theme => ({
-    root: {
-        flexGrow: 1,
-        marginTop: 30,
-        top: '20%',
-        width: '100%',
-        position: 'absolute'
-    },
     paper: {
         padding: 32,
         textAlign: 'center',
         color: theme.palette.text.secondary,
-        top: '30%',
-        //width: '100%',
+        //top: '30%',
+        width: '600',
         //position: 'absolute',
-        backgroundColor: 'rgba(255, 255, 255, 0.9)'
+        // backgroundColor: 'rgba(255, 255, 255, 0.9)'
     },
     button: {
-        backgroundColor: '#00319b',
-        marginTop: '15px'
-    },
-    grid : {
-        borderStyle : 'solid',
+        marginTop: '15px',
+        color: '#FFFFFF',
+        textTransform: 'capitalize',
+        fontFamily: 'Raleway, sans-serif',
+        fontSize: 20
     }
 });
 
 class SignUp extends Component {
 
     static propTypes = {
-        handleDoLogin: PropTypes.func,
-        classes: PropTypes.object
+        handleDoLogin: PropTypes.func.isRequired,
+        classes: PropTypes.object.isRequired
     };
     handleSubmit = () => {
         const {email, password} = this.state;
@@ -51,7 +44,6 @@ class SignUp extends Component {
         });
 
         if (!re.test(email)) {
-            console.log(re.test(email));
             this.setState({
                 emailError: true
             });
@@ -80,64 +72,78 @@ class SignUp extends Component {
         const classes = this.props.classes;
 
         return (
-            <div className={classes.root}>
-                <Grid container justify="center">
-                    <Grid item md={4} sm={1} xs={1}/>
-
-                    <Grid item md={4} sm={10} xs={10}>
-                        <Paper className={classes.paper} elevation={20}>
-                            <Typography type="display1" gutterBottom>
-                                Sign Up
-                            </Typography>
-                            <FormGroup>
-                                <FormControl>
-                                    <TextField
-                                        id="emailid"
-                                        label="Email ID"
-                                        type="email"
-                                        required={true}
-                                        error={this.state.emailError}
-                                        autoComplete="current-email"
-                                        margin="normal"
-                                        onChange={(event) => this.setState({email: event.target.value})}
-                                    />
-                                    {this.state.emailError && (<FormHelperText>Enter a valid Email ID.</FormHelperText>)}
-                                </FormControl>
-                                <FormControl>
-                                    <TextField
-                                        id="password"
-                                        label="Password"
-                                        type="password"
-                                        autoComplete="current-password"
-                                        required={true}
-                                        error={this.state.passwordError}
-                                        margin="normal"
-                                        onChange={(event) => this.setState({password: event.target.value})}
-                                    />
-                                    {this.state.passwordError && (<FormHelperText>Enter your Password.</FormHelperText>)}
-                                </FormControl>
-                                <FormControl>
-                                    <Button
-                                        className={classes.button}
-                                        raised
-                                        color="accent"
-                                        label="Sign Up"
-                                        onClick={(event) => {
+            <Paper className={classes.paper} elevation={20}>
+                <Grid container>
+                    <Grid item md={12} sm={12} xs={12}>
+                        <Typography type="display1" gutterBottom>
+                            Sign Up
+                        </Typography>
+                        <FormGroup>
+                            <FormControl>
+                                <TextField
+                                    id="name"
+                                    label="Name"
+                                    type="text"
+                                    required={true}
+                                    error={this.state.emailError}
+                                    margin="normal"
+                                    onChange={(event) => this.setState({email: event.target.value})}
+                                />
+                                {this.state.emailError && (<FormHelperText>Enter a valid Email ID.</FormHelperText>)}
+                            </FormControl>
+                            <FormControl>
+                                <TextField
+                                    id="emailid"
+                                    label="Enter Email ID"
+                                    type="email"
+                                    required={true}
+                                    error={this.state.emailError}
+                                    autoComplete="current-email"
+                                    margin="normal"
+                                    onChange={(event) => this.setState({email: event.target.value})}
+                                />
+                                {this.state.emailError && (<FormHelperText>Enter a valid Email ID.</FormHelperText>)}
+                            </FormControl>
+                            <FormControl>
+                                <TextField
+                                    id="password"
+                                    label="Create a Password"
+                                    type="password"
+                                    autoComplete="current-password"
+                                    required={true}
+                                    error={this.state.passwordError}
+                                    margin="normal"
+                                    onChange={(event) => this.setState({password: event.target.value})}
+                                />
+                                {this.state.passwordError && (<FormHelperText>Enter your Password.</FormHelperText>)}
+                            </FormControl>
+                            <FormControl>
+                                <TextField
+                                    id="datepicker"
+                                    label="Date of Birth"
+                                    type="text"
+                                    margin="normal"
+                                />
+                                {this.state.passwordError && (<FormHelperText>Enter your Password.</FormHelperText>)}
+                            </FormControl>
+                            <FormControl>
+                                <Button
+                                    className={classes.button}
+                                    raised
+                                    color="primary"
+                                    label="Sign Up"
+                                    onClick={(event) => {
                                             this.handleSubmit();
                                         }
-                                        }>
-                                        Submit
-                                    </Button>
-                                </FormControl>
-                            </FormGroup>
-                        </Paper>
+                                    }
+                                >
+                                    Sign Up
+                                </Button>
+                            </FormControl>
+                        </FormGroup>
                     </Grid>
-
-                    <Grid item md={4} sm={1} xs={1}/>
-
                 </Grid>
-            </div>
-
+            </Paper>
         );
     }
 }
