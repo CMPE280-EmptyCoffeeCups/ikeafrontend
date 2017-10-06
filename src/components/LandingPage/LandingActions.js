@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {doAuthentication, doLogout, showLogin} from "../../redux/actions/user";
+
 import Grid from 'material-ui/Grid';
 import Button from 'material-ui/Button';
-import Dialog from 'material-ui/Dialog';
 import {withStyles} from 'material-ui/styles';
 import {Link} from 'react-router-dom';
-
-import Login from './Login';
-import SignUp from './SignUp';
 
 
 const styles = theme => ({
@@ -35,28 +34,32 @@ const styles = theme => ({
 
 class LandingActions extends Component {
 
-    static LOGIN_DIALOG = 1;
-    static SIGNUP_DIALOG = 2;
-
-    handleCloseLoginSignupDialog = () => {
-        this.setState({loginOpen: false});
-    };
-    handleOpenLoginSignupDialog = (type) => {
-        this.setState({
-            loginOpen: true,
-            type: type
-        });
-    };
-
-    constructor() {
-        super();
-        this.state = {
-            loginOpen: false
-        }
+    constructor(props) {
+        super(props);
+        props.doAuthentication();
     }
 
     render() {
-        const classes = this.props.classes;
+        const {classes, isAuthenticated, name} = this.props;
+        let auth;
+        if(isAuthenticated){
+            auth = <div>
+                <p>Welcome, {name} !! </p>
+                <Button
+                    className={classes.loginSignUp}
+                    onClick={() => (this.props.doLogout())}
+                >
+                    Logout
+                </Button>
+            </div>;
+        } else {
+            auth = <Button
+                className={classes.loginSignUp}
+                onClick={() => (this.props.showLogin())}
+            >
+                Login | Sign Up
+            </Button>;
+        }
 
         return (
             <div className={classes.root}>
@@ -74,57 +77,40 @@ class LandingActions extends Component {
                     </Grid>
                 </Grid>
                 <Grid container justify="center">
-                    <Grid className={classes.loginSignUp} item md={3} sm={8} xs={8}>
-                        <Button
-                            className={classes.loginSignUp}
-                            onClick={() => (this.handleOpenLoginSignupDialog(LandingActions.LOGIN_DIALOG))}
-                        >
-                            Login
-                        </Button>
-                        <Button
-                            className={classes.loginSignUp}
-                            onClick={() => (this.handleOpenLoginSignupDialog(LandingActions.SIGNUP_DIALOG))}
-                        >
-                            Sign-up
-                        </Button>
+                    <Grid className={classes.loginSignUp} item md={4} sm={8} xs={8}>
+                        {auth}
                     </Grid>
                 </Grid>
-                <LoginSignupDialog
-                    open={this.state.loginOpen}
-                    onRequestClose={this.handleCloseLoginSignupDialog}
-                    type={this.state.type}
-                />
             </div>
         );
     }
 }
 
 
-class LoginSignupDialog extends Component {
-
-    render() {
-        const {classes,type,...other} = this.props;
-
-        if(type === LandingActions.LOGIN_DIALOG){
-            return (
-                <Dialog
-                    maxWidth="lg"
-                    {...other}>
-                    <Login handleDoLogin={this.handleDoLogin}/>
-                </Dialog>
-            );
+function mapStateToProps({user}) {
+    const {isAuthenticated, profile} = user;
+    let name;
+    if(isAuthenticated) {
+        const profJSON = JSON.parse(profile);
+        if (profJSON.name) {
+            name = profJSON.name;
         } else {
-            return (
-                <Dialog
-                    maxWidth="md"
-                    {...other}>
-                    <SignUp />
-                </Dialog>
-            );
+            name = profJSON.email;
         }
+    }
 
-
+    return {
+        isAuthenticated,
+        name
     }
 }
 
-export default withStyles(styles)(LandingActions);
+function mapDispatchToProps(dispatch){
+    return {
+        showLogin: (data) => dispatch(showLogin()),
+        doAuthentication: (data) => dispatch(doAuthentication()),
+        doLogout: (data) => dispatch(doLogout())
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(LandingActions));

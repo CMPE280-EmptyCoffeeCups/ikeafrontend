@@ -4,8 +4,7 @@ import './styles/App.css';
 
 import {createMuiTheme, MuiThemeProvider} from 'material-ui/styles';
 import LandingPage from "./components/LandingPage/LandingPage";
-import Welcome from './components/LandingPage/Welcome'
-
+import Welcome from './components/LandingPage/Welcome';
 import {Route, withRouter} from 'react-router-dom';
 import indigo from 'material-ui/colors/indigo';
 import yellow from 'material-ui/colors/yellow';
@@ -19,6 +18,7 @@ const theme = createMuiTheme({
     },
 });
 class App extends Component {
+
     render() {
         return (
             <MuiThemeProvider theme={theme}>
@@ -37,6 +37,7 @@ class App extends Component {
                             <Welcome/>
                         )}
                     />
+
                 </div>
             </MuiThemeProvider>
         );
