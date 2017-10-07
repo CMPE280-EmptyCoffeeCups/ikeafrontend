@@ -10,40 +10,40 @@ import '../../styles/App.css';
 function CenteredGrid(props) {
     return (
 
-            <div className="container">
-                <div className="imageLayout">
+        <div className="container strips">
+            <div className="imageLayout">
                 <div className="imageContainer">
-                    <img src={bedroom} className="imageStyle"/>
+                    <img alt="bedroom" src={bedroom} className="imageStyle"/>
                     <div className="textWrapper">
                         <p>Bedroom</p>
                     </div>
                 </div>
                 <div className="imageContainer" >
-                    <img src={living_room} className="imageStyle" />
+                    <img alt="livingroom" src={living_room} className="imageStyle" />
                     <div className="textWrapper">
                         <p>Living Room</p>
                     </div>
                 </div>
                 <div className="imageContainer">
-                    <img src={kitchen}  className="imageStyle"/>
+                    <img alt="kitchen" src={kitchen}  className="imageStyle"/>
                     <div className="textWrapper">
                         <p>Kitchen</p>
                     </div>
                 </div>
                 <div className="imageContainer">
-                    <img src={outdoor}  className="imageStyle"/>
+                    <img alt="outdoor" src={outdoor}  className="imageStyle"/>
                     <div className="textWrapper">
                         <p>Outdoor</p>
                     </div>
                 </div>
                 <div className="imageContainer">
-                    <img src={bathroom}  className="imageStyle"/>
+                    <img alt="bathroom" src={bathroom}  className="imageStyle"/>
                     <div className="textWrapper">
                         <p>Bathroom</p>
                     </div>
                 </div>
-                </div>
-                </div>
+            </div>
+        </div>
 
     );
 

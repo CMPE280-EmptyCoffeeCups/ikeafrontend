@@ -28,7 +28,7 @@ const styles = theme => ({
     }
 });
 
-class Login extends Component {
+class SignUp extends Component {
 
     static propTypes = {
         handleDoLogin: PropTypes.func.isRequired,
@@ -44,7 +44,6 @@ class Login extends Component {
         });
 
         if (!re.test(email)) {
-            console.log(re.test(email));
             this.setState({
                 emailError: true
             });
@@ -77,13 +76,25 @@ class Login extends Component {
                 <Grid container>
                     <Grid item md={12} sm={12} xs={12}>
                         <Typography type="display1" gutterBottom>
-                            Login
+                            Sign Up
                         </Typography>
                         <FormGroup>
                             <FormControl>
                                 <TextField
+                                    id="name"
+                                    label="Name"
+                                    type="text"
+                                    required={true}
+                                    error={this.state.emailError}
+                                    margin="normal"
+                                    onChange={(event) => this.setState({email: event.target.value})}
+                                />
+                                {this.state.emailError && (<FormHelperText>Enter a valid Email ID.</FormHelperText>)}
+                            </FormControl>
+                            <FormControl>
+                                <TextField
                                     id="emailid"
-                                    label="Email ID"
+                                    label="Enter Email ID"
                                     type="email"
                                     required={true}
                                     error={this.state.emailError}
@@ -96,7 +107,7 @@ class Login extends Component {
                             <FormControl>
                                 <TextField
                                     id="password"
-                                    label="Password"
+                                    label="Create a Password"
                                     type="password"
                                     autoComplete="current-password"
                                     required={true}
@@ -107,16 +118,26 @@ class Login extends Component {
                                 {this.state.passwordError && (<FormHelperText>Enter your Password.</FormHelperText>)}
                             </FormControl>
                             <FormControl>
+                                <TextField
+                                    id="datepicker"
+                                    label="Date of Birth"
+                                    type="text"
+                                    margin="normal"
+                                />
+                                {this.state.passwordError && (<FormHelperText>Enter your Password.</FormHelperText>)}
+                            </FormControl>
+                            <FormControl>
                                 <Button
                                     className={classes.button}
                                     raised
                                     color="primary"
-                                    label="Login"
+                                    label="Sign Up"
                                     onClick={(event) => {
-                                        this.handleSubmit();
+                                            this.handleSubmit();
+                                        }
                                     }
-                                    }>
-                                    Login
+                                >
+                                    Sign Up
                                 </Button>
                             </FormControl>
                         </FormGroup>
@@ -127,4 +148,4 @@ class Login extends Component {
     }
 }
 
-export default withStyles(styles)(Login);
+export default withStyles(styles)(SignUp);
