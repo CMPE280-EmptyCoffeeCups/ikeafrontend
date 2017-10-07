@@ -1,15 +1,10 @@
 import React, {Component} from 'react';
-import { Route, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import Login from "./Login";
-import * as ApiClient from "../../api/ApiClient";
 import Logo from "./Logo";
-import Welcome from './Welcome';
-import ikea2 from './ikea2.mp4';
 import '../../styles/App.css';
-
-
+import ikea2 from './ikea2.mp4';
+import LandingActions from "./LandingActions";
 
 const styles = theme => ({
     root: {
@@ -19,11 +14,13 @@ const styles = theme => ({
     flex: {
         flex: 1,
     },
-    menuButton: {
-        marginLeft: 10,
-        marginRight: 20,
-        backgroundImage: './images/desktop/gen/logo.svg'
-    },
+    video : {
+        height: 'auto',
+        width:'100%',
+        top: 0,
+        padding: 0,
+        position: 'absolute'
+    }
 });
 
 class LandingPage extends Component {
@@ -32,67 +29,23 @@ class LandingPage extends Component {
         classes: PropTypes.object.isRequired
     };
 
-    state = {
-        userLoggedIn: false,
-        authError: false
-    };
-
-    handleDoLogin = (payload) => {
-        ApiClient.postDoLogin(payload)
-            .then((status) => {
-
-                console.log(status);
-
-                if(status === 200){
-                    console.log("hello");
-                    this.setState({
-                        userLoggedIn: true
-                    });
-                    this.props.history.push("/welcome");
-                } else if(status === 401){
-                    this.setState({
-                        authError: true
-                    });
-                }
-
-            });
-    };
     render() {
-        const classes = this.props;
+        const {classes, isAuth} = this.props;
+        console.log(isAuth);
 
         return (
             <div className={classes.root}>
-
-                <Route
-                    exact
-                    path="/"
-                    render = {() => (
-                        <div>
-                            <video className='videoTag' autoPlay loop>
-                                <source src={ikea2} type='video/mp4' />
-                            </video>
-
-                            <Logo/>
-                            <Login handleDoLogin={this.handleDoLogin}/>
-                        </div>
-                    )}
-                />
-
-                <Route exact path="/welcome" render = {() =>
-                    (
-                        <div >
-
-                            <Welcome/>
-
-                        </div>
-
-
-                    )}
-                />
-
-
+                <div>
+                    <video className="videoTag" autoPlay loop>
+                        <source src={ikea2} type='video/mp4'/>
+                    </video>
+                    <Logo/>
+                    <LandingActions/>
+                </div>
             </div>
         )
     }
 }
-export default withRouter(withStyles(styles)(LandingPage));
+
+
+export default withStyles(styles)(LandingPage);
