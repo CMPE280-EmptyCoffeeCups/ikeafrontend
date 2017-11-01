@@ -8,10 +8,11 @@ import Welcome from './components/LandingPage/Welcome';
 import {Route, withRouter} from 'react-router-dom';
 import indigo from 'material-ui/colors/indigo';
 import yellow from 'material-ui/colors/yellow';
+import HomePage from "./components/HomePage/HomePage";
 
 const theme = createMuiTheme({
     palette: {
-        primary: indigo, // Purple and green play nicely together.
+        primary: indigo,
         secondary: {
             ...yellow,
         }
@@ -35,6 +36,13 @@ class App extends Component {
                         path="/welcome"
                         render={() => (
                             <Welcome/>
+                        )}
+                    />
+                    <Route
+                        exact
+                        path="/home"
+                        render={() => (
+                            <HomePage/>
                         )}
                     />
 

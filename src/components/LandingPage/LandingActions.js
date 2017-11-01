@@ -65,7 +65,7 @@ class LandingActions extends Component {
             <div className={classes.root}>
                 <Grid container justify="center">
                     <Grid item md={3} sm={8} xs={8}>
-                        <Link to={'/welcome'} className={'linkTag'}>
+                        <Link to={'/home'} className={'linkTag'}>
                             <Button
                                 raised
                                 color="primary"
