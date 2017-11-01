@@ -7,7 +7,7 @@ const headers = {
 export const postAuthUser = () => {
 
     let token = localStorage.getItem('id_token');
-    let profile = {};
+    let profile = JSON.parse(localStorage.getItem('profile'));
 
     return fetch(`${API}/user/authenticate`, {
         method: 'POST',
