@@ -1,19 +1,53 @@
-const API = "http://localhost:10010";
+const API = "http://localhost:3001";
 
 const headers = {
     'Accept': 'application/json'
 };
 
-export const postDoLogin = (payload) =>
-    fetch(`${API}/doLogin`, {
+export const postAuthUser = () => {
+
+    let token = localStorage.getItem('id_token');
+    let profile = {};
+
+    return fetch(`${API}/user/authenticate`, {
         method: 'POST',
         headers: {
             ...headers,
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            "authorization": `Bearer ${token}`,
+            "cache-control": "no-cache"
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(profile)
     }).then(res => {
-        return res.status;
+        if (res.status === 200) {
+            return res.json();
+        } else {
+            throw Error(res.status + " : " + res.statusText);
+        }
     }).catch(error => {
-            return error;
+        console.log(error);
+        return error;
     });
+};
+
+export const getItems = () => {
+    let token = localStorage.getItem('id_token');
+    return fetch(`${API}/items/`, {
+        method: 'GET',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json',
+            "authorization": `Bearer ${token}`,
+            "cache-control": "no-cache"
+        }
+    }).then(res => {
+        if (res.status === 200) {
+            return res.json();
+        } else {
+            throw Error(res.status + " : " + res.statusText);
+        }
+    }).catch(error => {
+        console.log(error);
+        return error;
+    });
+};
