@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
-
+import { findDOMNode } from 'react-dom';
 
 import {withStyles} from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
@@ -12,8 +12,10 @@ import MenuIcon from 'material-ui-icons/Menu';
 import Avatar from 'material-ui/Avatar';
 import ShoppingCartIcon from 'material-ui-icons/ShoppingCart';
 import Input from 'material-ui/Input';
+import Popover from 'material-ui/Popover';
 
 import * as API from '../../api/ApiClient';
+import ProfilePop from './ProfilePop';
 
 const styles = theme => ({
     root: {
@@ -42,6 +44,25 @@ const styles = theme => ({
 
 class NavBar extends Component {
 
+    state = {
+        open: false,
+        anchorEl: null
+    };
+
+
+    handleClickButton = (event) => {
+        this.setState({
+            open: true,
+            anchorEl: findDOMNode(event.target),
+        });
+    };
+
+    handleRequestClose = () => {
+        this.setState({
+            open: false,
+        });
+    };
+
     componentDidMount(){
         API.postAuthUser()
             .then((resJSON) => {
@@ -55,6 +76,10 @@ class NavBar extends Component {
     }
 
     render() {
+        const {
+            open,
+            anchorEl,
+        } = this.state;
         const {classes} = this.props;
         return (
             <div className={classes.root}>
@@ -67,7 +92,7 @@ class NavBar extends Component {
                             <Link to="/home">
                                 <img
                                     className={classes.logo}
-                                    src={'./images/desktop/gen/logo.svg'}
+                                    src={'/images/desktop/gen/logo.svg'}
                                     alt="IKEA"
                                 />
                             </Link>
@@ -78,12 +103,29 @@ class NavBar extends Component {
                         <IconButton>
                             <ShoppingCartIcon/>
                         </IconButton>
-                        <IconButton>
+                        <IconButton
+                            onClick={(event) => this.handleClickButton(event)}
+                        >
                             <Avatar
                                 alt="First Last"
-                                src="./images/desktop/gen/default_avatar.png"
+                                src="/images/desktop/gen/default_avatar.png"
                             />
                         </IconButton>
+                        <Popover
+                            open={open}
+                            anchorEl={anchorEl}
+                            onRequestClose={this.handleRequestClose}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'right',
+                            }}
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                        >
+                            <ProfilePop handleRequestClose={this.handleRequestClose}/>
+                        </Popover>
                     </Toolbar>
                 </AppBar>
             </div>

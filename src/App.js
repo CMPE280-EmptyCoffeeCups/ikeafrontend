@@ -17,6 +17,9 @@ const theme = createMuiTheme({
             ...yellow,
         }
     },
+    typography: {
+        fontFamily: '"Raleway", sans-serif',
+    },
 });
 class App extends Component {
 
@@ -39,7 +42,6 @@ class App extends Component {
                         )}
                     />
                     <Route
-                        exact
                         path="/home"
                         render={() => (
                             <HomePage/>
