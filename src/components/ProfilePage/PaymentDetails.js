@@ -41,21 +41,35 @@ const styles = theme => ({
 
 class PaymentDetails extends Component {
 
-    state = {
-        cardnumber: '3333 3333 3333 3333',
-        month: '03',
-        year: '17',
-        cvv: '332',
-        cardholdername: 'Gaurav Chodwadia',
-        billingaddress: '201 S 4th St, Apt 523, San Jose CA 95112',
-        savebuttondisabled: true
-    };
+    constructor(props) {
+        super(props);
+        const {profile} = props;
+        this.state = profile.paymentMethods[0];
+    }
+
 
     handleChange = (changed) => (event) => {
         this.setState({
             [changed]: event.target.value,
             savebuttondisabled: false
         });
+    };
+
+    handleSaveChanges = () => {
+        const {token} = this.props;
+        const {cardnumber, month, year, cvv, cardholdername, billingaddress} = this.state;
+        const profile = {
+            ...this.props.profile,
+            paymentMethods: [{
+                cardnumber,
+                month,
+                year,
+                cvv,
+                cardholdername,
+                billingaddress
+            }]
+        };
+        this.props.saveChanges(token, profile);
     };
 
     render() {
@@ -165,6 +179,7 @@ class PaymentDetails extends Component {
                                         color="primary"
                                         className={classes.saveButton}
                                         disabled={savebuttondisabled}
+                                        onClick={() => this.handleSaveChanges()}
                                     >
                                         Save Changes
                                     </Button>

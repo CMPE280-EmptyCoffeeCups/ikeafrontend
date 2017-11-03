@@ -79,7 +79,14 @@ export const doAuthentication = () => {
                     lname: profile.family_name ? profile.family_name : '',
                     email: profile.email,
                     address: '',
-                    paymentMethods: []
+                    paymentMethods: [{
+                        cardnumber: '',
+                        month: '',
+                        year: '',
+                        cvv: '',
+                        cardholdername: '',
+                        billingaddress: ''
+                    }]
                 };
 
                 localStorage.setItem('profile', JSON.stringify(profileModified));

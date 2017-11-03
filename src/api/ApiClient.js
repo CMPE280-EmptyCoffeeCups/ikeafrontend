@@ -5,7 +5,7 @@ const headers = {
 };
 
 export const getUserProfile = (token, profile) => {
-
+    console.log(profile);
     return fetch(`${API}/user/authenticate`, {
         method: 'POST',
         headers: {
@@ -25,7 +25,6 @@ export const getUserProfile = (token, profile) => {
 };
 
 export const postUpdateProfile = (token, profile) => {
-
     return fetch(`${API}/user/updateProfile`, {
         method: 'POST',
         headers: {
