@@ -14,7 +14,6 @@ import ShoppingCartIcon from 'material-ui-icons/ShoppingCart';
 import Input from 'material-ui/Input';
 import Popover from 'material-ui/Popover';
 
-import * as API from '../../api/ApiClient';
 import ProfilePop from './ProfilePop';
 
 const styles = theme => ({
@@ -64,15 +63,6 @@ class NavBar extends Component {
     };
 
     componentDidMount(){
-        API.postAuthUser()
-            .then((resJSON) => {
-                console.log(resJSON);
-            });
-
-        API.getItems()
-            .then((resJSON) => {
-                console.log(resJSON);
-            });
     }
 
     render() {

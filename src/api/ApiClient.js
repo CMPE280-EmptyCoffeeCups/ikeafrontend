@@ -4,10 +4,7 @@ const headers = {
     'Accept': 'application/json'
 };
 
-export const postAuthUser = () => {
-
-    let token = localStorage.getItem('id_token');
-    let profile = JSON.parse(localStorage.getItem('profile'));
+export const getUserProfile = (token, profile) => {
 
     return fetch(`${API}/user/authenticate`, {
         method: 'POST',
@@ -24,11 +21,27 @@ export const postAuthUser = () => {
         } else {
             throw Error(res.status + " : " + res.statusText);
         }
-    }).catch(error => {
-        console.log(error);
-        return error;
     });
 };
+
+export const postUpdateProfile = (token, profile) => {
+
+    return fetch(`${API}/user/updateProfile`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json',
+            "authorization": `Bearer ${token}`,
+            "cache-control": "no-cache"
+        },
+        body: JSON.stringify(profile)
+    }).then(res => {
+        if (res.status !== 200) {
+            throw Error(res.status + " : " + res.statusText);
+        }
+    });
+};
+
 
 export const getItems = () => {
     let token = localStorage.getItem('id_token');

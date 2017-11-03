@@ -18,8 +18,7 @@ const styles = theme => ({
         height: 'auto',
         width:'100%',
         top: 0,
-        padding: 0,
-        position: 'absolute'
+        padding: 0
     }
 });
 
@@ -30,8 +29,7 @@ class LandingPage extends Component {
     };
 
     render() {
-        const {classes, isAuth} = this.props;
-        console.log(isAuth);
+        const {classes} = this.props;
 
         return (
             <div className={classes.root}>

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {doAuthentication, doLogout, showLogin} from "../../redux/actions/user";
+import {doAuthentication, doLogout, showLogin} from "../../redux/actions/userAction";
 
 import Grid from 'material-ui/Grid';
 import Button from 'material-ui/Button';
@@ -91,11 +91,10 @@ function mapStateToProps({user}) {
     const {isAuthenticated, profile} = user;
     let name;
     if(isAuthenticated) {
-        const profJSON = JSON.parse(profile);
-        if (profJSON.name) {
-            name = profJSON.name;
+        if (profile.fname && profile.lname) {
+            name = `${profile.fname} ${profile.lname}`;
         } else {
-            name = profJSON.email;
+            name = profile.email;
         }
     }
 
@@ -107,9 +106,9 @@ function mapStateToProps({user}) {
 
 function mapDispatchToProps(dispatch){
     return {
-        showLogin: (data) => dispatch(showLogin()),
-        doAuthentication: (data) => dispatch(doAuthentication()),
-        doLogout: (data) => dispatch(doLogout())
+        showLogin: () => dispatch(showLogin()),
+        doAuthentication: () => dispatch(doAuthentication()),
+        doLogout: () => dispatch(doLogout())
     }
 }
 

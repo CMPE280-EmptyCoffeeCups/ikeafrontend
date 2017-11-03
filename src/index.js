@@ -3,10 +3,9 @@ import ReactDOM from 'react-dom';
 import './styles/index.css';
 import App from './App';
 import {applyMiddleware, compose, createStore} from 'redux';
-import rootReducer from './redux/reducers';
+import rootReducer from './redux/reducers/indexReducer';
 import {Provider} from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
-//import api from './middleware/api';
 
 import {BrowserRouter} from 'react-router-dom';
 
@@ -15,7 +14,6 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
     rootReducer,
     composeEnhancers(
-        // applyMiddleware(thunkMiddleware, api)
         applyMiddleware(thunkMiddleware)
     )
 );

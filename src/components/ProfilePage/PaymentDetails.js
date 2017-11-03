@@ -8,6 +8,7 @@ import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import Input, { InputLabel, InputAdornment } from 'material-ui/Input';
 import { FormControl } from 'material-ui/Form';
+import {updateProfile} from "../../redux/actions/userAction";
 
 const styles = theme => ({
     root: theme.mixins.gutters({
@@ -181,32 +182,16 @@ PaymentDetails.propTypes = {
     classes: PropTypes.object.isRequired
 };
 
-// const mapStateToProps = (state) => {
-//
-//     let { posts, sortBy } = state.postData;
-//
-//     let postsArr = Object.keys(posts).map((postId) => {
-//         return posts[postId];
-//     });
-//
-//     let sortedPosts = postsArr.sort((a, b) => {
-//         if(sortBy === 'time'){
-//             return b.timestamp - a.timestamp;
-//         } else {
-//             return b.voteScore - a.voteScore;
-//         }
-//     });
-//
-//     return {
-//         posts : sortedPosts
-//     };
-// };
-//
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//         fetchPostsData: (category) => dispatch(getAllPostData(category))
-//     };
-// };
+const mapStateToProps = (state) => {
+
+    return state.user;
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        saveChanges: (token, profile) => dispatch(updateProfile(token, profile))
+    };
+};
 
 
-export default (connect(null, null)(withStyles(styles)(PaymentDetails)));
+export default (connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(PaymentDetails)));

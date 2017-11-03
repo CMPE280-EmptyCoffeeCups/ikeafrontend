@@ -8,6 +8,7 @@ import Typography from 'material-ui/Typography';
 import Avatar from 'material-ui/Avatar';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
+import {getUserProfileData, updateProfile} from "../../redux/actions/userAction";
 
 const styles = theme => ({
     root: theme.mixins.gutters({
@@ -43,19 +44,42 @@ const styles = theme => ({
 
 class PersonalDetails extends Component {
 
-    state = {
-        fname: 'Gaurav',
-        lname: 'Chodwadia',
-        address: '201 S 4th St, Apt 523, San Jose CA 95112',
-        emailid: 'gauravchodwadia@gmail.com',
-        savebuttondisabled: true
-    };
+
+    constructor(props) {
+        super(props);
+        const {profile} = props;
+        this.state = {
+            fname: profile.fname,
+            lname: profile.lname,
+            address: profile.address,
+            email: profile.email,
+            savebuttondisabled: true
+        };
+    }
+
+    componentDidMount() {
+        const { token, profile } = this.props;
+        this.props.getUserProfileData(token, profile);
+    }
 
     handleChange = (changed) => (event) => {
         this.setState({
             [changed]: event.target.value,
             savebuttondisabled: false
         });
+    };
+
+    handleSaveChanges = () => {
+        const {token} = this.props;
+        const {fname, lname, email, address} = this.state;
+        const profile = {
+            ...this.props.profile,
+            fname,
+            lname,
+            email,
+            address
+        };
+        this.props.saveChanges(token, profile);
     };
 
     render() {
@@ -123,7 +147,7 @@ class PersonalDetails extends Component {
                                         id="emailid"
                                         label="Email ID"
                                         className={classes.textField}
-                                        value={this.state.emailid}
+                                        value={this.state.email}
                                         disabled
                                         margin="normal"
                                     />
@@ -148,6 +172,7 @@ class PersonalDetails extends Component {
                                         color="primary"
                                         className={classes.saveButton}
                                         disabled={savebuttondisabled}
+                                        onClick={() => this.handleSaveChanges()}
                                     >
                                         Save Changes
                                     </Button>
@@ -165,32 +190,17 @@ PersonalDetails.propTypes = {
     classes: PropTypes.object.isRequired
 };
 
-// const mapStateToProps = (state) => {
-//
-//     let { posts, sortBy } = state.postData;
-//
-//     let postsArr = Object.keys(posts).map((postId) => {
-//         return posts[postId];
-//     });
-//
-//     let sortedPosts = postsArr.sort((a, b) => {
-//         if(sortBy === 'time'){
-//             return b.timestamp - a.timestamp;
-//         } else {
-//             return b.voteScore - a.voteScore;
-//         }
-//     });
-//
-//     return {
-//         posts : sortedPosts
-//     };
-// };
-//
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//         fetchPostsData: (category) => dispatch(getAllPostData(category))
-//     };
-// };
+const mapStateToProps = (state) => {
+
+    return state.user;
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getUserProfileData: (token, profile) => dispatch(getUserProfileData(token, profile)),
+        saveChanges:         (token, profile) => dispatch(updateProfile(token, profile))
+    };
+};
 
 
-export default (connect(null, null)(withStyles(styles)(PersonalDetails)));
+export default (connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(PersonalDetails)));
