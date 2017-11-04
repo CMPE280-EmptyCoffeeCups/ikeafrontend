@@ -15,10 +15,7 @@ import {API} from '../../api/ApiClient';
 
 const styles = theme => ({
     card: {
-        maxWidth: 400,
-    },
-    media: {
-        height: 200,
+        maxWidth: 400
     },
     expand: {
         transform: 'rotate(0deg)',
@@ -39,7 +36,7 @@ const styles = theme => ({
     header: {
         paddingTop: 8,
         paddingBottom: 8
-    }
+    },
 });
 
 class Item extends React.Component {
@@ -57,10 +54,10 @@ class Item extends React.Component {
         const subheader = name[1];
 
         return (
-            <Grid item xs={6} md={3}>
+            <Grid item xs={6} sm={6} md={3}>
                 <Card className={classes.card}>
                     <CardMedia
-                        className={classes.media}
+                        component="img"
                         image={`${API}/static${item.IMAGES.main}`}
                         title="NORDLI bed"
                     />
@@ -73,10 +70,8 @@ class Item extends React.Component {
                         className={classes.price}
                         title={`$${item.PRICE}`}
                     />
-                    <CardContent>
-                        <Typography component="p">
-                            {item.PRODUCT_DESCRIPTION}
-                        </Typography>
+                    <CardContent className={classes.content}>
+
                     </CardContent>
                     <CardActions disableActionSpacing>
                         <IconButton aria-label="Add to favorites">
@@ -99,6 +94,9 @@ class Item extends React.Component {
                     </CardActions>
                     <Collapse in={this.state.expanded} transitionDuration="auto" unmountOnExit>
                         <CardContent>
+                            <Typography component="p">
+                                {item.PRODUCT_DESCRIPTION}
+                            </Typography>
                         </CardContent>
                     </Collapse>
                 </Card>
