@@ -135,6 +135,13 @@ class PersonalDetails extends Component {
         };
     }
 
+
+    //TODO: move this somewhere in the beginning when user logs in. This is a hack to update data.
+    componentWillReceiveProps(newProps){
+        const {fname, lname, email, address} = newProps.profile;
+        this.setState({fname, lname, email, address});
+    }
+
     componentDidMount() {
         const { token, profile } = this.props;
         this.props.getUserProfileData(token, profile);

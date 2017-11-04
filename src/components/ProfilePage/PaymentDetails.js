@@ -80,7 +80,6 @@ class PaymentDetails extends Component {
     render() {
         const {classes} = this.props;
         const {savebuttondisabled} = this.state;
-        console.log(this.state);
         return (
             <Grid container justify="center">
                 <Grid item xs={12} md={12}>

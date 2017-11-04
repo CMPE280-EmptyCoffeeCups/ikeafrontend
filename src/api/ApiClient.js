@@ -1,6 +1,6 @@
 // const API = "http://localhost:3001";
 
-const API = "https://ikeabackend.herokuapp.com";
+export const API = "https://ikeabackend.herokuapp.com";
 
 const headers = {
     'Accept': 'application/json'
@@ -59,14 +59,12 @@ export const deleteProfile = (token, email) => {
 };
 
 
-export const getItems = () => {
-    let token = localStorage.getItem('id_token');
+export const getAllItems = () => {
     return fetch(`${API}/items/`, {
         method: 'GET',
         headers: {
             ...headers,
             'Content-Type': 'application/json',
-            "authorization": `Bearer ${token}`,
             "cache-control": "no-cache"
         }
     }).then(res => {

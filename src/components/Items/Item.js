@@ -11,12 +11,14 @@ import ShareIcon from 'material-ui-icons/Share';
 import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
 import Grid from 'material-ui/Grid';
 
+import {API} from '../../api/ApiClient';
+
 const styles = theme => ({
     card: {
         maxWidth: 400,
     },
     media: {
-        height: 194,
+        height: 200,
     },
     expand: {
         transform: 'rotate(0deg)',
@@ -48,29 +50,32 @@ class Item extends React.Component {
     };
 
     render() {
-        const { classes } = this.props;
+        const { classes, item } = this.props;
+
+        const name = item.PRODUCT_NAME.split(/,(.+)/);
+        const title = name[0];
+        const subheader = name[1];
 
         return (
             <Grid item xs={6} md={3}>
                 <Card className={classes.card}>
                     <CardMedia
                         className={classes.media}
-                        image="http://www.ikea.com/PIAimages/0494839_PE627362_S3.JPG"
+                        image={`${API}/static${item.IMAGES.main}`}
                         title="NORDLI bed"
                     />
                     <CardHeader
                         className={classes.header}
-                        title="NORDLI"
-                        subheader="bedframe with storage"
+                        title={title}
+                        subheader={subheader}
                     />
                     <CardHeader
                         className={classes.price}
-                        title="$299"
+                        title={`$${item.PRICE}`}
                     />
                     <CardContent>
                         <Typography component="p">
-                            NORDLI bed frame is more than a comfortable bed. It’s also a storage unit with 6 spacious drawers.
-                            A practical solution for clothes, extra comforters and sweet dreams – all in a small space.
+                            {item.PRODUCT_DESCRIPTION}
                         </Typography>
                     </CardContent>
                     <CardActions disableActionSpacing>
@@ -105,5 +110,6 @@ class Item extends React.Component {
 Item.propTypes = {
     classes: PropTypes.object.isRequired,
 };
+
 
 export default withStyles(styles)(Item);
