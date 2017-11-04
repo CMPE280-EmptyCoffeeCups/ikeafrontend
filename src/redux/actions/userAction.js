@@ -8,6 +8,7 @@ export const LOCK_SUCCESS = 'LOCK_SUCCESS';
 export const LOCK_ERROR = 'LOCK_ERROR';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const SET_PROFILE_DATA = 'SET_PROFILE_DATA';
+export const REMOVE_PROFILE_DATA = 'REMOVE_PROFILE_DATA';
 
 const lockSuccess = (profile, token) => {
     return {
@@ -37,6 +38,11 @@ const setProfileData = (profile) => {
     }
 };
 
+const removeProfileData = () => {
+    return {
+        type: REMOVE_PROFILE_DATA
+    };
+};
 
 
 const options = {
@@ -124,7 +130,6 @@ export const updateProfile = (token, profile) => {
     return (dispatch) => {
         API.postUpdateProfile(token, profile)
             .then(() => {
-                console.log(profile);
                 dispatch(setProfileData(profile));
             })
             .catch((error) => {
@@ -133,4 +138,21 @@ export const updateProfile = (token, profile) => {
             });
     }
 };
+
+export const deleteProfile = (token, email) => {
+    return (dispatch) => {
+        API.deleteProfile(token, email)
+            .then(() => {
+                localStorage.removeItem('profile');
+                localStorage.removeItem('id_token');
+                dispatch(removeProfileData());
+            })
+            .catch((error) => {
+                console.error(error);
+                dispatch(errorOccured());
+            });
+    }
+};
+
+
 

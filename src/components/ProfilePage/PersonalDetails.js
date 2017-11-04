@@ -8,7 +8,15 @@ import Typography from 'material-ui/Typography';
 import Avatar from 'material-ui/Avatar';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
-import {getUserProfileData, updateProfile} from "../../redux/actions/userAction";
+import Divider from 'material-ui/Divider';
+import Dialog, {
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+} from 'material-ui/Dialog';
+
+import {deleteProfile, getUserProfileData, updateProfile} from "../../redux/actions/userAction";
 
 const styles = theme => ({
     root: theme.mixins.gutters({
@@ -38,8 +46,78 @@ const styles = theme => ({
         marginTop: theme.spacing.unit * 2,
         marginBottom: theme.spacing.unit * 2,
         width: '100%'
+    },
+    deleteButton: {
+        marginTop: theme.spacing.unit * 2,
+        marginBottom: theme.spacing.unit * 2,
+        width: '100%',
+        backgroundColor: '#ff7e77'
     }
 });
+
+class AlertDialog extends Component {
+    state = {
+        open: false,
+    };
+
+    handleRequestClose = (doDelete) => {
+        this.setState({ open: false });
+        if(doDelete){
+            const { token, email } = this.props;
+            this.props.deleteProfile(token, email);
+        }
+    };
+
+    handleRequestOpen = () => {
+        this.setState({open: true});
+    };
+
+    render() {
+        const {classes} = this.props;
+        return (
+            <div>
+                <Button
+                    raised
+                    className={classes.deleteButton}
+                    onClick={() => this.handleRequestOpen()}
+                >
+                    Delete Account
+                </Button>
+                <Dialog open={this.state.open} onRequestClose={this.handleRequestClose}>
+                    <DialogTitle>{"Do you want to delete your account?"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            This will delete your account and all your information, including payment details,  from IKEA website.
+                            You can always come back just by logging in, and your account will be activated.
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => this.handleRequestClose(false)} color="primary">
+                            No
+                        </Button>
+                        <Button onClick={() => this.handleRequestClose(true)} color="primary" autoFocus>
+                            Yes
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            </div>
+        );
+    }
+}
+const WrappedAlertDialog = connect(
+    (state) => {
+        const {user} = state;
+        return {
+            token: user.token,
+            email: user.profile.email
+        }
+    },
+    (dispatch) => {
+        return{
+            deleteProfile: (token, email) => dispatch(deleteProfile(token, email))
+        }
+    }
+)(withStyles(styles)(AlertDialog));
 
 
 class PersonalDetails extends Component {
@@ -80,6 +158,9 @@ class PersonalDetails extends Component {
             address
         };
         this.props.saveChanges(token, profile);
+        this.setState({
+            savebuttondisabled : true
+        });
     };
 
     render() {
@@ -176,6 +257,16 @@ class PersonalDetails extends Component {
                                     >
                                         Save Changes
                                     </Button>
+                                </Grid>
+                            </Grid>
+                            <Grid container justify="center">
+                                <Grid item xs={12} md={12}>
+                                    <Divider/>
+                                </Grid>
+                            </Grid>
+                            <Grid container justify="center">
+                                <Grid item xs={12} md={4}>
+                                    <WrappedAlertDialog/>
                                 </Grid>
                             </Grid>
                         </Grid>

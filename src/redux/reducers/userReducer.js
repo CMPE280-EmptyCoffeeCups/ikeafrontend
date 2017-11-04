@@ -1,7 +1,8 @@
 import {
     LOCK_SUCCESS,
     LOGOUT_SUCCESS,
-    SET_PROFILE_DATA
+    SET_PROFILE_DATA,
+    REMOVE_PROFILE_DATA
 } from "../actions/userAction";
 
 const initialState = {
@@ -33,6 +34,13 @@ const user = (state = initialState, action) => {
             return {
                 ...state,
                 profile: action.profile
+            };
+
+        case REMOVE_PROFILE_DATA:
+            return {
+                isAuthenticated: false,
+                profile: {},
+                token: ''
             };
 
         default :

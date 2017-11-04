@@ -8,9 +8,11 @@ import PersonalDetails from './PersonalDetails';
 import PaymentDetails from './PaymentDetails';
 
 const styles = theme => ({
-    root: {
-        marginTop: theme.spacing.unit * 3
-    },
+    root: theme.mixins.gutters({
+        paddingTop: 16,
+        paddingBottom: 16,
+        marginTop: theme.spacing.unit * 2,
+    }),
 
 });
 

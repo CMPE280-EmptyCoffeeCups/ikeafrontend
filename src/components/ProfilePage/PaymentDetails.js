@@ -44,7 +44,9 @@ class PaymentDetails extends Component {
     constructor(props) {
         super(props);
         const {profile} = props;
-        this.state = profile.paymentMethods[0];
+        const state = profile.paymentMethods[0];
+        state.savebuttondisabled = true;
+        this.state = state;
     }
 
 
@@ -70,11 +72,15 @@ class PaymentDetails extends Component {
             }]
         };
         this.props.saveChanges(token, profile);
+        this.setState({
+            savebuttondisabled : true
+        });
     };
 
     render() {
         const {classes} = this.props;
         const {savebuttondisabled} = this.state;
+        console.log(this.state);
         return (
             <Grid container justify="center">
                 <Grid item xs={12} md={12}>

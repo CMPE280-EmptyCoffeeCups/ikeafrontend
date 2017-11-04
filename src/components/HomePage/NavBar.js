@@ -11,14 +11,16 @@ import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
 import Avatar from 'material-ui/Avatar';
 import ShoppingCartIcon from 'material-ui-icons/ShoppingCart';
-import Input from 'material-ui/Input';
 import Popover from 'material-ui/Popover';
 
 import ProfilePop from './ProfilePop';
 
 const styles = theme => ({
     root: {
-        width: '100%'
+        width: '100%',
+        position: 'fixed',
+        top: 0,
+        zIndex: 1000
     },
     toolBar:{
         backgroundColor: '#fcd53e'
@@ -87,9 +89,6 @@ class NavBar extends Component {
                                 />
                             </Link>
                         </Typography>
-                        <Input
-                            
-                        />
                         <IconButton>
                             <ShoppingCartIcon/>
                         </IconButton>

@@ -1,11 +1,12 @@
-const API = "http://localhost:3001";
+// const API = "http://localhost:3001";
+
+const API = "https://ikeabackend.herokuapp.com";
 
 const headers = {
     'Accept': 'application/json'
 };
 
 export const getUserProfile = (token, profile) => {
-    console.log(profile);
     return fetch(`${API}/user/authenticate`, {
         method: 'POST',
         headers: {
@@ -25,8 +26,8 @@ export const getUserProfile = (token, profile) => {
 };
 
 export const postUpdateProfile = (token, profile) => {
-    return fetch(`${API}/user/updateProfile`, {
-        method: 'POST',
+    return fetch(`${API}/user/profile`, {
+        method: 'PUT',
         headers: {
             ...headers,
             'Content-Type': 'application/json',
@@ -34,6 +35,22 @@ export const postUpdateProfile = (token, profile) => {
             "cache-control": "no-cache"
         },
         body: JSON.stringify(profile)
+    }).then(res => {
+        if (res.status !== 200) {
+            throw Error(res.status + " : " + res.statusText);
+        }
+    });
+};
+
+export const deleteProfile = (token, email) => {
+    return fetch(`${API}/user/profile/${email}`, {
+        method: 'DELETE',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json',
+            "authorization": `Bearer ${token}`,
+            "cache-control": "no-cache"
+        },
     }).then(res => {
         if (res.status !== 200) {
             throw Error(res.status + " : " + res.statusText);
