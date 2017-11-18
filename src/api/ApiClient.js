@@ -1,6 +1,6 @@
-export const API = "http://localhost:3001";
+//export const API = "http://localhost:3001";
 
-// export const API = "https://ikeabackend.herokuapp.com";
+export const API = "https://ikeabackend.herokuapp.com";
 
 const headers = {
     'Accept': 'application/json'
