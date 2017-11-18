@@ -10,6 +10,8 @@ import FavoriteIcon from 'material-ui-icons/Favorite';
 import ShareIcon from 'material-ui-icons/Share';
 import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
 import Grid from 'material-ui/Grid';
+import Button from 'material-ui/Button';
+import AddToCart from 'material-ui-icons/AddShoppingCart';
 
 import {API} from '../../api/ApiClient';
 
@@ -37,6 +39,12 @@ const styles = theme => ({
         paddingTop: 8,
         paddingBottom: 8
     },
+    rightIcon: {
+        marginLeft: theme.spacing.unit,
+    },
+    button: {
+        width: '100%'
+    },
 });
 
 class Item extends React.Component {
@@ -59,7 +67,7 @@ class Item extends React.Component {
                     <CardMedia
                         component="img"
                         image={`${API}/static${item.IMAGES.main}`}
-                        title="NORDLI bed"
+                        title={`${title} ${subheader}`}
                     />
                     <CardHeader
                         className={classes.header}
@@ -71,7 +79,10 @@ class Item extends React.Component {
                         title={`$${item.PRICE}`}
                     />
                     <CardContent className={classes.content}>
-
+                        <Button className={classes.button} raised color="primary">
+                            Add To Cart
+                            <AddToCart className={classes.rightIcon} />
+                        </Button>
                     </CardContent>
                     <CardActions disableActionSpacing>
                         <IconButton aria-label="Add to favorites">

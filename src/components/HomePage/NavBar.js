@@ -10,10 +10,10 @@ import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
 import Avatar from 'material-ui/Avatar';
-import ShoppingCartIcon from 'material-ui-icons/ShoppingCart';
 import Popover from 'material-ui/Popover';
 
 import ProfilePop from './ProfilePop';
+import Cart from './Cart';
 
 const styles = theme => ({
     root: {
@@ -39,6 +39,9 @@ const styles = theme => ({
     bigAvatar: {
         width: 60,
         height: 60,
+    },
+    badge: {
+        margin: `0 ${theme.spacing.unit * 3}px`,
     },
 });
 
@@ -89,9 +92,7 @@ class NavBar extends Component {
                                 />
                             </Link>
                         </Typography>
-                        <IconButton>
-                            <ShoppingCartIcon/>
-                        </IconButton>
+                        <Cart/>
                         <IconButton
                             onClick={(event) => this.handleClickButton(event)}
                         >
