@@ -61,7 +61,7 @@ const styles = theme => ({
 
 class Cart extends React.Component {
     state = {
-        right: true, //TODO: make this false
+        right: false, //TODO: make this true for dev
     };
 
     toggleDrawer = (side, open) => () => {
