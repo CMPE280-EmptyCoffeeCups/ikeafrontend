@@ -1,7 +1,6 @@
 import * as getConfig from '../config/config';
 
 export const API = getConfig.get('prod').API;
-console.log(API);
 
 const headers = {
     'Accept': 'application/json'
