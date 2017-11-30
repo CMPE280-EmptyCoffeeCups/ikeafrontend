@@ -1,6 +1,7 @@
-//export const API = "http://localhost:3001";
+import * as getConfig from '../config/config';
 
-export const API = "https://ikeabackend.herokuapp.com";
+export const API = getConfig.get('dev').API;
+console.log(API);
 
 const headers = {
     'Accept': 'application/json'

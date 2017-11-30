@@ -5,6 +5,7 @@ import {withStyles} from 'material-ui/styles';
 
 import Paper from 'material-ui/Paper';
 import Grid from 'material-ui/Grid';
+import Carousel from './ItemCarousel';
 
 import Item from './Item';
 import {getAllItems} from "../../redux/actions/itemsAction";
@@ -27,6 +28,11 @@ class ItemsList extends Component {
         const {classes} = this.props;
         return (
             <Grid container justify="center">
+                <Grid item xs={12} md={10}>
+                    <Paper className={classes.root} elevation={4}>
+                        <Carousel/>
+                    </Paper>
+                </Grid>
                 <Grid item xs={12} md={10}>
                     <Paper className={classes.root} elevation={4}>
                         <Grid container>
