@@ -11,9 +11,11 @@ import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
 import Avatar from 'material-ui/Avatar';
 import Popover from 'material-ui/Popover';
+import SearchIcon from 'material-ui-icons/Search';
 
 import ProfilePop from './ProfilePop';
 import Cart from './Cart';
+import SearchBar from './SearchBar';
 
 const styles = theme => ({
     root: {
@@ -22,11 +24,14 @@ const styles = theme => ({
         top: 0,
         zIndex: 1000
     },
+    searchcontainer:{
+        flex: 1,
+    },
     toolBar:{
         backgroundColor: '#fcd53e'
     },
     flex: {
-        flex: 1,
+        flex: 0,
     },
     logo: {
         width: 120,
@@ -50,14 +55,22 @@ class NavBar extends Component {
 
     state = {
         open: false,
+        searchOpen: false,
         anchorEl: null
     };
 
 
-    handleClickButton = (event) => {
+    handleClickProfileButton = (event) => {
         this.setState({
             open: true,
             anchorEl: findDOMNode(event.target),
+        });
+    };
+
+    handleClickSearchButton = () => {
+        let searchOpen = !this.state.searchOpen;
+        this.setState({
+            searchOpen: searchOpen,
         });
     };
 
@@ -92,9 +105,17 @@ class NavBar extends Component {
                                 />
                             </Link>
                         </Typography>
+                        <div className={classes.searchcontainer}>
+                            {this.state.searchOpen ? <SearchBar/> : ''}
+                        </div>
+                        <IconButton
+                            onClick={(event) => this.handleClickSearchButton()}
+                        >
+                            <SearchIcon/>
+                        </IconButton>
                         <Cart/>
                         <IconButton
-                            onClick={(event) => this.handleClickButton(event)}
+                            onClick={(event) => this.handleClickProfileButton(event)}
                         >
                             <Avatar
                                 alt="First Last"
