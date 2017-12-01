@@ -127,7 +127,7 @@ class Cart extends React.Component {
                                                     <select
                                                         style={{marginLeft: 5}}
                                                         value={cartItem.qty}
-                                                        onChange={(event) => this.props.updateQtyOfCartItem(cartItem, event.target.value)}
+                                                        onChange={(event) => this.props.updateQtyOfCartItem(user.profile, cartItem, event.target.value)}
                                                     >
                                                         <option>1</option>
                                                         <option>2</option>
@@ -200,7 +200,7 @@ const msp = (state) => {
 const mdp = (dispatch) => {
     return {
         removeItemFromCart: (profile, item) => dispatch(removeItemFromCart(profile, item)),
-        updateQtyOfCartItem: (item, qty) => dispatch(updateQtyOfCartItem(item, qty))
+        updateQtyOfCartItem: (profile, item, qty) => dispatch(updateQtyOfCartItem(profile, item, qty))
     }
 };
 

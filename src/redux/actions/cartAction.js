@@ -34,6 +34,7 @@ export const addItemToCart = (profile, item) => {
 
         API.addItemToCart(profile, item)
             .then((resJSON) => {
+                console.log(resJSON);
                 dispatch(addToCart(item));
             })
             .catch((error) => {
@@ -47,6 +48,7 @@ export const removeItemFromCart = (profile, item) => {
     return (dispatch) => {
         API.removeItemFromCart(profile, item)
             .then((resJSON) => {
+                console.log(resJSON);
                 dispatch(removeItem(item));
             })
             .catch((error) => {
@@ -56,17 +58,17 @@ export const removeItemFromCart = (profile, item) => {
     }
 };
 
-export const updateQtyOfCartItem = (item, qty) => {
+export const updateQtyOfCartItem = (profile, item, qty) => {
     return (dispatch) => {
-        // API.getAllItems()
-        //     .then((resJSON) => {
-        //         dispatch(addToCart(item));
-        //     })
-        //     .catch((error) => {
-        //         console.error(error);
-        //         dispatch(errorOccured());
-        //     });
-        dispatch(updateQty(item, qty))
+        API.updateQtyOfCartItem(profile, item, qty)
+            .then((resJSON) => {
+                console.log(resJSON);
+                dispatch(updateQty(item, qty));
+            })
+            .catch((error) => {
+                console.log(error);
+                dispatch(errorOccured());
+            });
     }
 };
 

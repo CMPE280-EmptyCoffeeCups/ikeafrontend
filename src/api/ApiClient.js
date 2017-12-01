@@ -120,7 +120,7 @@ export const removeItemFromCart = (profile, item) => {
     });
 };
 
-export const updateQtyOfCartItem = (profile, itemId, qty) => {
+export const updateQtyOfCartItem = (profile, item, qty) => {
     return fetch(`${API}/cart/update`, {
         method: 'POST',
         headers: {
@@ -130,7 +130,7 @@ export const updateQtyOfCartItem = (profile, itemId, qty) => {
         },
         body: JSON.stringify({
             profile,
-            itemId,
+            item,
             qty
         })
     }).then(res => {
