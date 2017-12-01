@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {withStyles} from 'material-ui/styles';
 import Drawer from 'material-ui/Drawer';
@@ -10,6 +11,11 @@ import Paper from 'material-ui/Paper';
 import Grid from 'material-ui/Grid';
 import Button from 'material-ui/Button';
 import RemoveCart from 'material-ui-icons/RemoveShoppingCart';
+
+import * as getConfig from '../../config/config';
+import {removeItemFromCart, updateQtyOfCartItem} from "../../redux/actions/cartAction";
+
+const IMAGE_CDN = getConfig.get('prod').IMAGE_CDN;
 
 const styles = theme => ({
     cartbutton: {
@@ -32,6 +38,7 @@ const styles = theme => ({
     item: {
         margin: 10,
         paddingLeft: 5,
+        paddingRight: 5,
         paddingTop: 20,
     },
     itemimage: {
@@ -71,7 +78,7 @@ class Cart extends React.Component {
     };
 
     render() {
-        const {classes} = this.props;
+        const {classes, cartItems, user} = this.props;
 
 
         return (
@@ -101,37 +108,53 @@ class Cart extends React.Component {
 
 
                         {/*Items List */}
-                        <Paper className={classes.item}>
-                            <Grid container md={12}>
-                                <Grid item md={3}>
-                                    <img
-                                        className={classes.itemimage}
-                                        alt={"Item Name"} //TODO: change this
-                                        src={'http://localhost:3001/static/images/product/coffeetables/IKEA_PS_2017_main.jpg'}
-                                    />
-                                </Grid>
-                                <Grid item md={6}>
-                                    <Typography type="title">IKEA PS 2017</Typography>
-                                    <Typography>Side table/stool, beech</Typography>
-                                    <div style={{marginTop: 10}}>
-                                        Qty:
-                                        <select style={{marginLeft: 5}}>
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                        </select>
-                                    </div>
-                                </Grid>
-                                <Grid item md={3}>
-                                    <Typography type="title" align="right">$589</Typography>
-                                    <Button className={classes.button} dense>
-                                        Remove
-                                        <RemoveCart className={classes.rightIcon}/>
-                                    </Button>
-                                </Grid>
+                        {
+                            cartItems && cartItems.map((cartItem) => {
+                                return (
+                                    <Paper key={cartItem._id} className={classes.item}>
+                                        <Grid container>
+                                            <Grid item md={3}>
+                                                <img
+                                                    className={classes.itemimage}
+                                                    alt={cartItem.PRODUCT_NAME} //TODO: change this
+                                                    src={IMAGE_CDN + cartItem.IMAGES.main}
+                                                />
+                                            </Grid>
+                                            <Grid item md={6}>
+                                                <Typography>{cartItem.PRODUCT_NAME}</Typography>
+                                                <div style={{marginTop: 10}}>
+                                                    Qty:
+                                                    <select
+                                                        style={{marginLeft: 5}}
+                                                        value={cartItem.qty}
+                                                        onChange={(event) => this.props.updateQtyOfCartItem(cartItem, event.target.value)}
+                                                    >
+                                                        <option>1</option>
+                                                        <option>2</option>
+                                                        <option>3</option>
+                                                        <option>4</option>
+                                                        <option>5</option>
+                                                    </select>
+                                                </div>
+                                            </Grid>
+                                            <Grid item md={3}>
+                                                <Typography type="title" align="right">`${cartItem.PRICE}`</Typography>
+                                                <Button
+                                                    className={classes.button}
+                                                    dense
+                                                    onClick={() => this.props.removeItemFromCart(user.profile, cartItem._id)}
+                                                >
+                                                    Remove
+                                                    <RemoveCart className={classes.rightIcon}/>
+                                                </Button>
+                                            </Grid>
 
-                            </Grid>
-                        </Paper>
+                                        </Grid>
+                                    </Paper>
+                                )
+                            })
+                        }
+
 
                         <Paper className={classes.subtotal}>
                             <Grid container>
@@ -165,4 +188,19 @@ Cart.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Cart);
+const msp = (state) => {
+    const {cart, user} = state;
+    return {
+        cartItems : cart.cartItems,
+        user
+    };
+};
+
+const mdp = (dispatch) => {
+    return {
+        removeItemFromCart: (profile, itemId) => dispatch(removeItemFromCart(profile, itemId)),
+        updateQtyOfCartItem: (item, qty) => dispatch(updateQtyOfCartItem(item, qty))
+    }
+};
+
+export default connect(msp, mdp)(withStyles(styles)(Cart));

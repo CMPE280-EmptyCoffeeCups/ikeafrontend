@@ -78,3 +78,64 @@ export const getAllItems = () => {
         return error;
     });
 };
+
+
+export const addItemToCart = (profile, item) => {
+    return fetch(`${API}/cart/add`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json',
+            "cache-control": "no-cache"
+        },
+        body: JSON.stringify({
+            profile,
+            item
+        })
+    }).then(res => {
+        if (res.status === 200) {
+            return res.json();
+        } else {
+            throw Error(res.status + " : " + res.statusText);
+        }
+    });
+};
+
+export const removeItemFromCart = (profile, itemId) => {
+    return fetch(`${API}/cart/remove`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json',
+            "cache-control": "no-cache"
+        },
+        body: JSON.stringify({
+            profile,
+            itemId
+        })
+    }).then(res => {
+        if (res.status !== 200) {
+            throw Error(res.status + " : " + res.statusText);
+        }
+    });
+};
+
+export const updateQtyOfCartItem = (profile, itemId, qty) => {
+    return fetch(`${API}/cart/update`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json',
+            "cache-control": "no-cache"
+        },
+        body: JSON.stringify({
+            profile,
+            itemId,
+            qty
+        })
+    }).then(res => {
+        if (res.status !== 200) {
+            throw Error(res.status + " : " + res.statusText);
+        }
+    });
+};
