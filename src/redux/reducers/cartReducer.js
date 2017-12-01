@@ -4,7 +4,8 @@ import {
 } from "../actions/cartAction";
 
 const initialState = {
-    cartItems: []
+    cartItems: [],
+    subtotal: 0
 };
 
 
@@ -14,39 +15,65 @@ const cart = (state = initialState, action) => {
 
     switch (action.type){
 
+
         case ADD_TO_CART :
 
-            const newItem = action.item;
+            let newItem = action.item;
+            newItem.itemTotal = newItem.PRICE;
 
             newItem.qty = 1;
             cartItems.push(newItem);
 
+            // newST = cartItems.reduce((st, item) => {
+            //     console.log(st);
+            //     console.log(item);
+            //     return st + item.itemTotal;
+            // });
+
             return {
                 ...state,
-                cartItems
+                cartItems,
+                subtotal: cartItems.reduce((st, item) => {
+                    return st + item.itemTotal;
+                }, 0).toFixed(2)
             };
 
         case REMOVE_ITEM:
+            const removeItem = action.item;
+
+            let newCartItemsRemove = cartItems.filter((cartItem) => (cartItem._id !== removeItem._id));
+
             return {
                 ...state,
-                 cartItems : cartItems.filter((cartItem) => (cartItem._id !== action.itemId))
+                cartItems: newCartItemsRemove,
+                subtotal: newCartItemsRemove.reduce((st, item) => {
+                    return st + item.itemTotal;
+                }, 0).toFixed(2)
             };
 
         case UPDATE_QTY:
             const updateItem = action.item;
-            const qty = action.qty;
+            const updateQty = action.qty;
+            const updatePrice = updateItem.PRICE;
+            const updateItemTotal = updatePrice * updateQty;
 
-            let newCartItems = [];
 
-            cartItems.forEach((item, index) => {
+            let newCartItemsUpdated = [];
+
+            cartItems.forEach((item) => {
                 if(item._id === updateItem._id){
-                    item.qty = qty;
+                    item.qty = updateQty;
+                    item.itemTotal = updateItemTotal;
                 }
-                newCartItems.push(item);
+                newCartItemsUpdated.push(item);
             });
+
             return {
                 ...state,
-                cartItems: newCartItems
+                cartItems: newCartItemsUpdated,
+                subtotal: newCartItemsUpdated.reduce((st, item) => {
+                    return st + item.itemTotal;
+                }, 0).toFixed(2)
             };
 
         default :

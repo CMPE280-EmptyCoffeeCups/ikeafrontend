@@ -56,11 +56,20 @@ const styles = theme => ({
 });
 
 class Item extends React.Component {
-    state = { expanded: false };
+    state = {
+        expanded: false
+    };
 
     handleExpandClick = () => {
-        this.setState({ expanded: !this.state.expanded });
+        this.setState({
+            expanded: !this.state.expanded
+        });
     };
+
+    handleAddToCart = (profile, item) => {
+        this.props.addItemToCart(profile, item);
+    };
+
 
     render() {
         const { classes, item, user } = this.props;
@@ -70,13 +79,11 @@ class Item extends React.Component {
         const subheader = name[1];
 
         let cartBtn;
-        if(item.qty) {
+        if(item.incart) {
             cartBtn = <Button
                 className={classes.addedbutton}
                 raised
-                // onClick={() => (this.props.addItemToCart(Object.assign({}, item)))}
-                onClick={() => (this.props.addItemToCart(user.profile, item))}
-
+                onClick={() => (null)}
             >
                 Added To Cart
                 <DoneAll className={classes.rightIcon} />
@@ -87,8 +94,7 @@ class Item extends React.Component {
                 className={classes.button}
                 raised
                 color="primary"
-                // onClick={() => (this.props.addItemToCart(Object.assign({}, item)))}
-                onClick={() => (this.props.addItemToCart(user.profile, item))}
+                onClick={() => (this.handleAddToCart(user.profile, Object.assign({}, item)))}
 
             >
                 Add To Cart

@@ -78,7 +78,7 @@ class Cart extends React.Component {
     };
 
     render() {
-        const {classes, cartItems, user} = this.props;
+        const {classes, cartItems, subtotal, user} = this.props;
 
 
         return (
@@ -138,11 +138,11 @@ class Cart extends React.Component {
                                                 </div>
                                             </Grid>
                                             <Grid item md={3}>
-                                                <Typography type="title" align="right">`${cartItem.PRICE}`</Typography>
+                                                <Typography type="title" align="right">${cartItem.PRICE}</Typography>
                                                 <Button
                                                     className={classes.button}
                                                     dense
-                                                    onClick={() => this.props.removeItemFromCart(user.profile, cartItem._id)}
+                                                    onClick={() => this.props.removeItemFromCart(user.profile, cartItem)}
                                                 >
                                                     Remove
                                                     <RemoveCart className={classes.rightIcon}/>
@@ -162,7 +162,7 @@ class Cart extends React.Component {
                                     <Typography type="title">Subtotal</Typography>
                                 </Grid>
                                 <Grid item md={6}>
-                                    <Typography type="title" align="right">$589</Typography>
+                                    <Typography type="title" align="right">${subtotal}</Typography>
                                 </Grid>
                             </Grid>
                             <Grid container>
@@ -192,13 +192,14 @@ const msp = (state) => {
     const {cart, user} = state;
     return {
         cartItems : cart.cartItems,
+        subtotal: cart.subtotal,
         user
     };
 };
 
 const mdp = (dispatch) => {
     return {
-        removeItemFromCart: (profile, itemId) => dispatch(removeItemFromCart(profile, itemId)),
+        removeItemFromCart: (profile, item) => dispatch(removeItemFromCart(profile, item)),
         updateQtyOfCartItem: (item, qty) => dispatch(updateQtyOfCartItem(item, qty))
     }
 };

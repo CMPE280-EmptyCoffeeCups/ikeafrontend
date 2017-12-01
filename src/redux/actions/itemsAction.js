@@ -13,8 +13,6 @@ const updateItemsData = (items) => {
 };
 
 
-
-
 export const getAllItems = () => {
     return (dispatch) => {
         API.getAllItems()

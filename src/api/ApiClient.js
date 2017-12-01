@@ -101,7 +101,7 @@ export const addItemToCart = (profile, item) => {
     });
 };
 
-export const removeItemFromCart = (profile, itemId) => {
+export const removeItemFromCart = (profile, item) => {
     return fetch(`${API}/cart/remove`, {
         method: 'POST',
         headers: {
@@ -111,7 +111,7 @@ export const removeItemFromCart = (profile, itemId) => {
         },
         body: JSON.stringify({
             profile,
-            itemId
+            item
         })
     }).then(res => {
         if (res.status !== 200) {

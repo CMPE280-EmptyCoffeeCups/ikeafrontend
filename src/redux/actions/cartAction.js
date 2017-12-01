@@ -14,10 +14,10 @@ const addToCart = (item) => {
     }
 };
 
-const removeItem = (itemId) => {
+const removeItem = (item) => {
     return {
         type: REMOVE_ITEM,
-        itemId
+        item
     }
 };
 
@@ -34,7 +34,6 @@ export const addItemToCart = (profile, item) => {
 
         API.addItemToCart(profile, item)
             .then((resJSON) => {
-                console.log(resJSON);
                 dispatch(addToCart(item));
             })
             .catch((error) => {
@@ -44,11 +43,11 @@ export const addItemToCart = (profile, item) => {
     }
 };
 
-export const removeItemFromCart = (profile, itemId) => {
+export const removeItemFromCart = (profile, item) => {
     return (dispatch) => {
-        API.removeItemFromCart(profile, itemId)
+        API.removeItemFromCart(profile, item)
             .then((resJSON) => {
-                dispatch(removeItem(itemId));
+                dispatch(removeItem(item));
             })
             .catch((error) => {
                 console.error(error);

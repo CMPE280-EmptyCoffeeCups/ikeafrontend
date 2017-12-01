@@ -25,7 +25,7 @@ class ItemsList extends Component {
     }
 
     render() {
-        const {classes} = this.props;
+        const {classes, items} = this.props;
         return (
             <Grid container justify="center">
                 <Grid item xs={12} md={10}>
@@ -38,7 +38,7 @@ class ItemsList extends Component {
                         <Grid container>
 
                             {
-                                this.props.items.map((item) => {
+                                items.map((item) => {
                                     return (<Item
                                         key={item._id}
                                         item={item}
