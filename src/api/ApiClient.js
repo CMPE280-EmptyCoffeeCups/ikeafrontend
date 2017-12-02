@@ -80,6 +80,26 @@ export const getAllItems = () => {
 };
 
 
+export const initCart = (profile) => {
+    return fetch(`${API}/cart/getcart`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json',
+            "cache-control": "no-cache"
+        },
+        body: JSON.stringify({
+            profile
+        })
+    }).then(res => {
+        if (res.status === 200) {
+            return res.json();
+        } else {
+            throw Error(res.status + " : " + res.statusText);
+        }
+    });
+};
+
 export const addItemToCart = (profile, item) => {
     return fetch(`${API}/cart/add`, {
         method: 'POST',

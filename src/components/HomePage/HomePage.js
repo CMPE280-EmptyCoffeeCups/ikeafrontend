@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Route, withRouter} from 'react-router-dom';
 import ProfilePage from '../ProfilePage/ProfilePage';
+import Checkout from '../Checkout/Checkout';
 
 import {withStyles} from 'material-ui/styles';
 
@@ -39,6 +40,17 @@ class HomePage extends Component {
                         render={() => {
                             if(this.props.isAuthenticated){
                                 return <ProfilePage/>
+                            } else {
+                                return <div>You have landed on a wrong page..!!</div>
+                            }
+                        }}
+                    />
+                    <Route
+                        exact
+                        path={`${this.props.match.path}/checkout`}
+                        render={() => {
+                            if(this.props.isAuthenticated){
+                                return <Checkout/>
                             } else {
                                 return <div>You have landed on a wrong page..!!</div>
                             }

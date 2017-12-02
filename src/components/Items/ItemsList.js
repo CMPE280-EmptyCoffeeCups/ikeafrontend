@@ -18,6 +18,10 @@ const styles = theme => ({
         paddingBottom: 16,
         marginTop: theme.spacing.unit * 2,
     }),
+    title: {
+        paddingTop: 16,
+        paddingBottom: 16
+    },
     spinnerContainer:{
         height: 200,
         paddingTop: 75
@@ -44,9 +48,9 @@ class ItemsList extends Component {
                 <Grid item xs={12} md={10}>
                     <Paper className={classes.root} elevation={4}>
                         <Grid container>
-                            <Grid item xs={6} md={6}>
-                                <Typography type='title'>
-                                    All Products
+                            <Grid item xs={12} md={12}>
+                                <Typography className={classes.title} type='title'>
+                                    Showing All Products
                                 </Typography>
                             </Grid>
                         </Grid>

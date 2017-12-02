@@ -70,7 +70,7 @@ function getSuggestions(suggestions, value) {
 
     return inputLength === 0
         ? []
-        : suggestions.filter(suggestion => {
+        : [{PRODUCT_NAME: value}].concat(suggestions.filter(suggestion => {
             const keep =
                 count < 10 && suggestion.PRODUCT_NAME.toLowerCase().includes(inputValue);
 
@@ -79,7 +79,7 @@ function getSuggestions(suggestions, value) {
             }
 
             return keep;
-        });
+        }));
 }
 
 const styles = theme => ({

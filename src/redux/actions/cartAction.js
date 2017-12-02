@@ -6,6 +6,14 @@ import {errorOccured} from './UIAction';
 export const ADD_TO_CART = 'ADD_TO_CART';
 export const REMOVE_ITEM = 'REMOVE_ITEM';
 export const UPDATE_QTY = 'UPDATE_QTY';
+export const INIT_CART = 'INIT_CART';
+
+const initiateCart = (cartArr) => {
+    return {
+        type: INIT_CART,
+        cartArr
+    }
+};
 
 const addToCart = (item) => {
     return {
@@ -26,6 +34,19 @@ const updateQty = (item, qty) => {
         type: UPDATE_QTY,
         item,
         qty
+    }
+};
+
+export const initCart = (profile) => {
+    return (dispatch) => {
+        API.initCart(profile)
+            .then((resJSON) => {
+                resJSON.cart && dispatch(initiateCart(resJSON.cart.CART_PRODUCTS));
+            })
+            .catch((error) => {
+                console.log(error);
+                dispatch(errorOccured());
+            });
     }
 };
 
@@ -70,5 +91,6 @@ export const updateQtyOfCartItem = (profile, item, qty) => {
             });
     }
 };
+
 
 

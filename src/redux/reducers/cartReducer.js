@@ -1,6 +1,8 @@
 import {
     ADD_TO_CART,
-    REMOVE_ITEM, UPDATE_QTY
+    REMOVE_ITEM,
+    UPDATE_QTY,
+    INIT_CART
 } from "../actions/cartAction";
 
 const initialState = {
@@ -15,7 +17,22 @@ const cart = (state = initialState, action) => {
 
     switch (action.type){
 
+        case INIT_CART:
 
+            let initArr = action.cartArr.map((item) => {
+                item.itemTotal = item.PRICE * item.qty;
+                return item;
+            });
+
+            console.log(initArr);
+
+            return{
+                ...state,
+                cartItems: initArr,
+                subtotal: initArr.reduce((st, item) => {
+                    return st + item.itemTotal;
+                }, 0).toFixed(2)
+            };
         case ADD_TO_CART :
 
             let newItem = action.item;

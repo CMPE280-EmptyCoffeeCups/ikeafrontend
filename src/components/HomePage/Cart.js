@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {withStyles} from 'material-ui/styles';
+import {withRouter} from 'react-router-dom';
 import Drawer from 'material-ui/Drawer';
 import Badge from 'material-ui/Badge';
 import ShoppingCartIcon from 'material-ui-icons/ShoppingCart';
@@ -13,7 +14,7 @@ import Button from 'material-ui/Button';
 import RemoveCart from 'material-ui-icons/RemoveShoppingCart';
 
 import * as getConfig from '../../config/config';
-import {removeItemFromCart, updateQtyOfCartItem} from "../../redux/actions/cartAction";
+import {initCart, removeItemFromCart, updateQtyOfCartItem} from "../../redux/actions/cartAction";
 
 const IMAGE_CDN = getConfig.get('prod').IMAGE_CDN;
 
@@ -81,6 +82,15 @@ class Cart extends React.Component {
             [side]: open,
         });
     };
+
+    handleCheckout = () => {
+        this.toggleDrawer('right', false).call();
+        this.props.history.push('/home/checkout');
+    };
+
+    componentDidMount(){
+        this.props.initCart(this.props.user.profile);
+    }
 
     render() {
         const {classes, cartItems, subtotal, user} = this.props;
@@ -186,7 +196,12 @@ class Cart extends React.Component {
                             </Grid>
                             <Grid container justify="center">
                                 <Grid item md={9}>
-                                    <Button raised color="primary" className={classes.checkoutbutton}>
+                                    <Button
+                                        raised
+                                        color="primary"
+                                        className={classes.checkoutbutton}
+                                        onClick={() => this.handleCheckout()}
+                                    >
                                         Check Out
                                     </Button>
                                 </Grid>
@@ -216,8 +231,9 @@ const msp = (state) => {
 const mdp = (dispatch) => {
     return {
         removeItemFromCart: (profile, item) => dispatch(removeItemFromCart(profile, item)),
-        updateQtyOfCartItem: (profile, item, qty) => dispatch(updateQtyOfCartItem(profile, item, qty))
+        updateQtyOfCartItem: (profile, item, qty) => dispatch(updateQtyOfCartItem(profile, item, qty)),
+        initCart: (profile) => dispatch(initCart(profile))
     }
 };
 
-export default connect(msp, mdp)(withStyles(styles)(Cart));
+export default connect(msp, mdp)(withRouter(withStyles(styles)(Cart)));
