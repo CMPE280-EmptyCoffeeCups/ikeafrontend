@@ -34,7 +34,6 @@ export const addItemToCart = (profile, item) => {
 
         API.addItemToCart(profile, item)
             .then((resJSON) => {
-                console.log(resJSON);
                 dispatch(addToCart(item));
             })
             .catch((error) => {

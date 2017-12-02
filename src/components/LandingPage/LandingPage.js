@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Logo from "./Logo";
 import '../../styles/App.css';
-import ikea2 from './ikea2.mp4';
 import LandingActions from "./LandingActions";
 
 const styles = theme => ({
@@ -35,7 +34,7 @@ class LandingPage extends Component {
             <div className={classes.root}>
                 <div>
                     <video className="videoTag" autoPlay loop>
-                        <source src={ikea2} type='video/mp4'/>
+                        <source src={'http://res.cloudinary.com/gc51289/video/upload/v1512182248/ikea2.mp4'} type='video/mp4'/>
                     </video>
                     <Logo/>
                     <LandingActions/>
