@@ -15,6 +15,7 @@ import Button from 'material-ui/Button';
 import AddToCart from 'material-ui-icons/AddShoppingCart';
 import DoneAll from 'material-ui-icons/DoneAll';
 
+import Spinner from '../OtherComponents/Spinner';
 import {addItemToCart} from "../../redux/actions/cartAction";
 
 import {API} from '../../api/ApiClient';
@@ -57,7 +58,8 @@ const styles = theme => ({
 
 class Item extends React.Component {
     state = {
-        expanded: false
+        expanded: false,
+        imageLoaded: false
     };
 
     handleExpandClick = () => {
@@ -70,6 +72,11 @@ class Item extends React.Component {
         this.props.addItemToCart(profile, item);
     };
 
+    handleImageLoaded(){
+        this.setState({
+            imageLoaded: true
+        });
+    }
 
     render() {
         const { classes, item, user } = this.props;
@@ -77,6 +84,17 @@ class Item extends React.Component {
         const name = item.PRODUCT_NAME.split(/,(.+)/);
         const title = name[0];
         const subheader = name[1];
+
+        let cardMedia;
+        if(this.state.imageLoaded){
+            cardMedia = '';
+        } else {
+            cardMedia = <Grid container justify="center">
+                <Grid item>
+                    <Spinner/>
+                </Grid>
+            </Grid>;
+        }
 
         let cartBtn;
         if(item.incart) {
@@ -106,10 +124,12 @@ class Item extends React.Component {
         return (
             <Grid item xs={6} sm={6} md={3}>
                 <Card className={classes.card}>
+                    {cardMedia}
                     <CardMedia
                         component="img"
                         image={`${API}/static${item.IMAGES.main}`}
                         title={`${title} ${subheader}`}
+                        onLoad={() => this.handleImageLoaded()}
                     />
                     <CardHeader
                         className={classes.header}

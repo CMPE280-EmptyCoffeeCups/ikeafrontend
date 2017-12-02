@@ -62,6 +62,11 @@ const styles = theme => ({
     },
     checkoutbutton:{
         width: '100%'
+    },
+    cartMsg:{
+        textAlign: 'center',
+        fontSize: 20,
+        paddingTop: 100
     }
 
 });
@@ -81,13 +86,64 @@ class Cart extends React.Component {
         const {classes, cartItems, subtotal, user} = this.props;
 
         let badge;
+        let cartBody;
 
         if(cartItems.length > 0){
             badge = <Badge badgeContent={cartItems.length} color="primary">
                         <ShoppingCartIcon/>
                     </Badge>;
+
+
+            cartBody = cartItems.map((cartItem) => {
+                return (
+                    <Paper key={cartItem._id} className={classes.item}>
+                        <Grid container>
+                            <Grid item md={3}>
+                                <img
+                                    className={classes.itemimage}
+                                    alt={cartItem.PRODUCT_NAME} //TODO: change this
+                                    src={IMAGE_CDN + cartItem.IMAGES.main}
+                                />
+                            </Grid>
+                            <Grid item md={6}>
+                                <Typography>{cartItem.PRODUCT_NAME}</Typography>
+                                <div style={{marginTop: 10}}>
+                                    Qty:
+                                    <select
+                                        style={{marginLeft: 5}}
+                                        value={cartItem.qty}
+                                        onChange={(event) => this.props.updateQtyOfCartItem(user.profile, cartItem, event.target.value)}
+                                    >
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                    </select>
+                                </div>
+                            </Grid>
+                            <Grid item md={3}>
+                                <Typography type="title" align="right">${cartItem.PRICE}</Typography>
+                                <Button
+                                    className={classes.button}
+                                    dense
+                                    onClick={() => this.props.removeItemFromCart(user.profile, cartItem)}
+                                >
+                                    Remove
+                                    <RemoveCart className={classes.rightIcon}/>
+                                </Button>
+                            </Grid>
+
+                        </Grid>
+                    </Paper>
+                )
+            });
         } else {
-            badge =     <ShoppingCartIcon/>;
+            badge = <ShoppingCartIcon/>;
+            cartBody =
+                <Typography type="display1" className={classes.cartMsg}>
+                    Your Cart is Empty..!!
+                </Typography>;
         }
 
         return (
@@ -113,52 +169,7 @@ class Cart extends React.Component {
 
 
                         {/*Items List */}
-                        {
-                            cartItems && cartItems.map((cartItem) => {
-                                return (
-                                    <Paper key={cartItem._id} className={classes.item}>
-                                        <Grid container>
-                                            <Grid item md={3}>
-                                                <img
-                                                    className={classes.itemimage}
-                                                    alt={cartItem.PRODUCT_NAME} //TODO: change this
-                                                    src={IMAGE_CDN + cartItem.IMAGES.main}
-                                                />
-                                            </Grid>
-                                            <Grid item md={6}>
-                                                <Typography>{cartItem.PRODUCT_NAME}</Typography>
-                                                <div style={{marginTop: 10}}>
-                                                    Qty:
-                                                    <select
-                                                        style={{marginLeft: 5}}
-                                                        value={cartItem.qty}
-                                                        onChange={(event) => this.props.updateQtyOfCartItem(user.profile, cartItem, event.target.value)}
-                                                    >
-                                                        <option>1</option>
-                                                        <option>2</option>
-                                                        <option>3</option>
-                                                        <option>4</option>
-                                                        <option>5</option>
-                                                    </select>
-                                                </div>
-                                            </Grid>
-                                            <Grid item md={3}>
-                                                <Typography type="title" align="right">${cartItem.PRICE}</Typography>
-                                                <Button
-                                                    className={classes.button}
-                                                    dense
-                                                    onClick={() => this.props.removeItemFromCart(user.profile, cartItem)}
-                                                >
-                                                    Remove
-                                                    <RemoveCart className={classes.rightIcon}/>
-                                                </Button>
-                                            </Grid>
-
-                                        </Grid>
-                                    </Paper>
-                                )
-                            })
-                        }
+                        { cartBody }
 
 
                         <Paper className={classes.subtotal}>

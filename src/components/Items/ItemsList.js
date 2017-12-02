@@ -6,9 +6,11 @@ import {withStyles} from 'material-ui/styles';
 import Paper from 'material-ui/Paper';
 import Grid from 'material-ui/Grid';
 import Carousel from './ItemCarousel';
+import Typography from 'material-ui/Typography';
 
 import Item from './Item';
 import {getAllItems} from "../../redux/actions/itemsAction";
+import Spinner from '../OtherComponents/Spinner';
 
 const styles = theme => ({
     root: theme.mixins.gutters({
@@ -16,6 +18,10 @@ const styles = theme => ({
         paddingBottom: 16,
         marginTop: theme.spacing.unit * 2,
     }),
+    spinnerContainer:{
+        height: 200,
+        paddingTop: 75
+    }
 });
 
 class ItemsList extends Component {
@@ -26,8 +32,10 @@ class ItemsList extends Component {
 
     render() {
         const {classes, items} = this.props;
+
         return (
             <Grid container justify="center">
+
                 <Grid item xs={12} md={10}>
                     <Paper className={classes.root} elevation={4}>
                         <Carousel/>
@@ -35,6 +43,13 @@ class ItemsList extends Component {
                 </Grid>
                 <Grid item xs={12} md={10}>
                     <Paper className={classes.root} elevation={4}>
+                        <Grid container>
+                            <Grid item xs={6} md={6}>
+                                <Typography type='title'>
+                                    All Products
+                                </Typography>
+                            </Grid>
+                        </Grid>
                         <Grid container>
 
                             {
@@ -47,6 +62,13 @@ class ItemsList extends Component {
                             }
 
                         </Grid>
+                        {
+                            items.length < 1 && (
+                                <Grid container justify="center" className={classes.spinnerContainer}>
+                                    <Spinner/>
+                                </Grid>
+                            )
+                        }
                     </Paper>
                 </Grid>
             </Grid>
