@@ -80,13 +80,20 @@ class Cart extends React.Component {
     render() {
         const {classes, cartItems, subtotal, user} = this.props;
 
+        let badge;
+
+        if(cartItems.length > 0){
+            badge = <Badge badgeContent={cartItems.length} color="primary">
+                        <ShoppingCartIcon/>
+                    </Badge>;
+        } else {
+            badge =     <ShoppingCartIcon/>;
+        }
 
         return (
             <div>
                 <IconButton className={classes.cartbutton} onClick={this.toggleDrawer('right', true)}>
-                    <Badge badgeContent={4} color="primary">
-                        <ShoppingCartIcon/>
-                    </Badge>
+                    {badge}
                 </IconButton>
 
                 <Drawer
@@ -98,9 +105,7 @@ class Cart extends React.Component {
                         <Paper className={classes.title}>
                             <Grid container>
                                 <IconButton className={classes.cartbutton1} onClick={this.toggleDrawer('right', true)}>
-                                    <Badge badgeContent={4} color="primary">
-                                        <ShoppingCartIcon/>
-                                    </Badge>
+                                    {badge}
                                 </IconButton>
                                 <Typography type="headline" gutterBottom>Your Shopping Cart</Typography>
                             </Grid>
