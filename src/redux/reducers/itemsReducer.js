@@ -2,8 +2,8 @@ import {
     UPDATE_ITEMS_DATA
 } from "../actions/itemsAction";
 
-import{
-    ADD_TO_CART,
+import {
+    ADD_TO_CART, INIT_CART,
     REMOVE_ITEM
 } from '../actions/cartAction';
 
@@ -58,6 +58,10 @@ const items = (state = initialState, action) => {
                 ...state,
                 items: newItems
             };
+
+        case INIT_CART:
+            const cartItems = action.cartArr;
+
 
         default :
             return state;

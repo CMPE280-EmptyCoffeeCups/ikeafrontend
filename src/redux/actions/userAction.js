@@ -80,6 +80,14 @@ export const doAuthentication = () => {
                     return dispatch(lockError(error))
                 }
 
+                API.getUserProfile(authResult.idToken, profile)
+                    .then((resJSON) => {
+                        dispatch(setProfileData(resJSON.profile));
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+
                 const profileModified = {
                     fname: profile.given_name ? profile.given_name : '',
                     lname: profile.family_name ? profile.family_name : '',

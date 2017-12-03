@@ -36,7 +36,15 @@ class ProfilePop extends Component {
         let profilePopMenu;
 
         if(isAuthenticated){
-            const fullName = `Hello, ${profile.fname} ${profile.lname} !`;
+
+            let fullName;
+            if(profile.fname){
+                fullName = `Hello, ${profile.fname} ${profile.lname} !`;
+            } else {
+                fullName = `Hello..!!`
+            }
+
+
             profilePopMenu =
                 <List className={classes.root}>
                     <ListItem button>

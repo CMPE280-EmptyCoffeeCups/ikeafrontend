@@ -44,7 +44,14 @@ class PaymentDetails extends Component {
     constructor(props) {
         super(props);
         const {profile} = props;
-        const state = profile.paymentMethods[0];
+        const state = profile.paymentMethods ? profile.paymentMethods: {
+            cardnumber: '',
+            month: '',
+            year: '',
+            cvv: '',
+            cardholdername: '',
+            billingaddress: ''
+        };
         state.savebuttondisabled = true;
         this.state = state;
     }

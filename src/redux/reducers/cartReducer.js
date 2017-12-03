@@ -24,8 +24,6 @@ const cart = (state = initialState, action) => {
                 return item;
             });
 
-            console.log(initArr);
-
             return{
                 ...state,
                 cartItems: initArr,

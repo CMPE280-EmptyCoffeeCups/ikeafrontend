@@ -7,8 +7,9 @@ import Checkout from '../Checkout/Checkout';
 import {withStyles} from 'material-ui/styles';
 
 import NavBar from './NavBar';
-import {doAuthentication} from "../../redux/actions/userAction";
+import {doAuthentication, getUserProfileData} from "../../redux/actions/userAction";
 import ItemsList from "../Items/ItemsList";
+import {initCart} from "../../redux/actions/cartAction";
 
 const styles = theme => ({
     home: {
@@ -21,6 +22,10 @@ class HomePage extends Component {
     constructor(props){
         super(props);
         props.doAuthentication();
+        if(props.isAuthenticated){
+            props.getUserProfileData(props.token, props.profile);
+        }
+
     }
 
     render() {
@@ -65,13 +70,18 @@ class HomePage extends Component {
 const mapStateToProps = (state) => {
     const {user} = state;
     return {
-        isAuthenticated: user.isAuthenticated
+        isAuthenticated: user.isAuthenticated,
+        token: user.token,
+        profile: user.profile
+
     }
 };
 
 function mapDispatchToProps(dispatch){
     return {
-        doAuthentication: () => dispatch(doAuthentication())
+        doAuthentication: () => dispatch(doAuthentication()),
+        getUserProfileData: (token, profile) => dispatch(getUserProfileData(token, profile)),
+        initCart: (profile) => dispatch(initCart(profile))
     }
 }
 
