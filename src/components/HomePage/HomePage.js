@@ -4,6 +4,7 @@ import {Route, withRouter} from 'react-router-dom';
 import ProfilePage from '../ProfilePage/ProfilePage';
 import Checkout from '../Checkout/Checkout';
 import OrderComplete from '../Checkout/OrderComplete';
+import TryItBeta from './TryItBeta';
 
 import {withStyles} from 'material-ui/styles';
 
@@ -70,6 +71,13 @@ class HomePage extends Component {
                             } else {
                                 return <div>You have landed on a wrong page..!!</div>
                             }
+                        }}
+                    />
+                    <Route
+                        exact
+                        path={`${this.props.match.path}/tryitbeta`}
+                        render={() => {
+                            return <TryItBeta/>;
                         }}
                     />
                 </div>

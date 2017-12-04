@@ -1,6 +1,7 @@
 import {
     UPDATE_ITEMS_DATA,
-    MARK_ITMES_IN_CART
+    MARK_ITMES_IN_CART,
+    DO_SEARCH
 } from "../actions/itemsAction";
 
 import {
@@ -9,7 +10,8 @@ import {
 } from '../actions/cartAction';
 
 const initialState = {
-    items: {}
+    items: {},
+    searched: ''
 };
 
 
@@ -69,6 +71,12 @@ const items = (state = initialState, action) => {
 
             return {
                 items: newInitCartState
+            };
+
+        case DO_SEARCH:
+            return{
+                ...state,
+                searched: action.searched
             };
 
         default :

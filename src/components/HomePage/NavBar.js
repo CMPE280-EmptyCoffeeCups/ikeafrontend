@@ -96,13 +96,18 @@ class NavBar extends Component {
                         <IconButton className={classes.menuButton}>
                             <MenuIcon />
                         </IconButton>
-                        <Typography type="title" color="inherit" className={classes.flex}>
+                        <Typography type="title" color="inherit">
                             <Link to="/home">
                                 <img
                                     className={classes.logo}
                                     src={'/images/desktop/gen/logo.svg'}
                                     alt="IKEA"
                                 />
+                            </Link>
+                        </Typography>
+                        <Typography type="title" color="inherit" className={classes.flex}>
+                            <Link to="/home/tryitbeta">
+                                Try It! Beta
                             </Link>
                         </Typography>
                         <div className={classes.searchcontainer}>

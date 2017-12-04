@@ -5,6 +5,7 @@ import {errorOccured} from './UIAction';
 
 export const UPDATE_ITEMS_DATA = 'UPDATE_ITEMS_DATA';
 export const MARK_ITMES_IN_CART = 'MARK_ITEMS_IN_CART';
+export const DO_SEARCH = 'DO_SEARCH';
 
 const updateItemsData = (items) => {
     return {
@@ -17,6 +18,13 @@ export const markItemsInCart = (cartArr) => {
     return {
         type: MARK_ITMES_IN_CART,
         cartArr
+    }
+};
+
+export const doSearch = (searched) => {
+    return {
+        type: DO_SEARCH,
+        searched
     }
 };
 

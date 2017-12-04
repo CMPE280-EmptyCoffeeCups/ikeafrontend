@@ -2,14 +2,14 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {withStyles} from 'material-ui/styles';
-
 import Paper from 'material-ui/Paper';
 import Grid from 'material-ui/Grid';
 import Carousel from './ItemCarousel';
 import Typography from 'material-ui/Typography';
+import Button from 'material-ui/Button';
 
 import Item from './Item';
-import {getAllItems} from "../../redux/actions/itemsAction";
+import {doSearch, getAllItems} from "../../redux/actions/itemsAction";
 import Spinner from '../OtherComponents/Spinner';
 
 const styles = theme => ({
@@ -34,22 +34,33 @@ class ItemsList extends Component {
     }
 
     render() {
-        const {classes, items} = this.props;
+        const {classes, items, carousel, searched} = this.props;
+
+        let carDisp = '';
+        let showingFor = 'Showing All Products';
+        if(carousel){
+            carDisp = <Grid item xs={12} md={10}>
+                <Paper className={classes.root} elevation={4}>
+                    <Carousel/>
+                </Paper>
+            </Grid>;
+        }
+        if(searched !== ''){
+            showingFor = `Showing results for "${searched}"`
+        }
+
+
 
         return (
             <Grid container justify="center">
 
-                <Grid item xs={12} md={10}>
-                    <Paper className={classes.root} elevation={4}>
-                        <Carousel/>
-                    </Paper>
-                </Grid>
+                {carDisp}
                 <Grid item xs={12} md={10}>
                     <Paper className={classes.root} elevation={4}>
                         <Grid container>
                             <Grid item xs={12} md={12}>
                                 <Typography className={classes.title} type='title'>
-                                    Showing All Products
+                                    {showingFor}
                                 </Typography>
                             </Grid>
                         </Grid>
@@ -66,10 +77,21 @@ class ItemsList extends Component {
 
                         </Grid>
                         {
-                            items.length < 1 && (
+                            items.length < 1 && searched === '' && (
                                 <Grid container justify="center" className={classes.spinnerContainer}>
                                     <Spinner/>
                                 </Grid>
+                            )
+                        }
+                        {
+                            items.length < 1 && searched !== '' &&(
+                            <Grid container justify="center" className={classes.spinnerContainer}>
+                                <Typography className={classes.title} type='heading'>
+                                    No results for {searched}. <Button onClick={() => {
+                                        this.props.doSearch('');
+                                }}>See all the products.</Button>
+                                </Typography>
+                            </Grid>
                             )
                         }
                     </Paper>
@@ -85,10 +107,11 @@ ItemsList.propTypes = {
 
 
 const mapStateToProps = (state) => {
-    const {items} = state.items;
+    const {items, searched} = state.items;
     const {cart} = state;
 
     let itemArr = [];
+    let carousel = true;
 
     for(let itemId in items){
         if(items.hasOwnProperty(itemId)){
@@ -96,15 +119,23 @@ const mapStateToProps = (state) => {
         }
     }
 
+    if(searched !== ''){
+        itemArr = itemArr.filter((item) => item.PRODUCT_NAME.toLowerCase().includes(searched.toLowerCase()));
+        carousel = false;
+    }
+
     return {
         items: itemArr,
-        cartArr: cart.cartItems
+        cartArr: cart.cartItems,
+        carousel,
+        searched
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         getAllItems: () => dispatch(getAllItems()),
+        doSearch: (searched) => dispatch(doSearch(searched))
         //markItemsInCart: (cartArr) => dispatch(markItemsInCart(cartArr))
     }
 };

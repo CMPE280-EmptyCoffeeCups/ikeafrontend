@@ -8,6 +8,7 @@ import {MenuItem} from 'material-ui/Menu';
 import match from 'autosuggest-highlight/match';
 import parse from 'autosuggest-highlight/parse';
 import {withStyles} from 'material-ui/styles';
+import {doSearch} from "../../redux/actions/itemsAction";
 
 function renderInput(inputProps) {
     const { classes, autoFocus, value, ref, ...other } = inputProps;
@@ -71,9 +72,7 @@ function getSuggestions(suggestions, value) {
     return inputLength === 0
         ? []
         : [{PRODUCT_NAME: value}].concat(suggestions.filter(suggestion => {
-            const keep =
-                count < 10 && suggestion.PRODUCT_NAME.toLowerCase().includes(inputValue);
-
+            const keep = count < 10 && suggestion.PRODUCT_NAME.toLowerCase().includes(inputValue);
             if (keep) {
                 count += 1;
             }
@@ -136,6 +135,12 @@ class SearchBar extends React.Component {
         });
     };
 
+    handleKeyPress = (event) => {
+        if(event.key === 'Enter' ){
+            this.props.doSearch(this.state.value)
+        }
+    };
+
     render() {
 
         const { classes } = this.props;
@@ -160,7 +165,8 @@ class SearchBar extends React.Component {
                     classes,
                     placeholder: 'Search Products ...',
                     value: this.state.value,
-                    onChange: this.handleChange
+                    onChange: this.handleChange,
+                    onKeyPress: this.handleKeyPress
                 }}
             />
         );
@@ -171,11 +177,26 @@ SearchBar.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => {
-    const {items} = state.items;
+const msp = (state) => {
+
+    let items = [];
+
+    for(let itemId in state.items.items){
+        if(state.items.items.hasOwnProperty(itemId)){
+            items.push(state.items.items[itemId]);
+        }
+    }
+
     return {
-        items
+        items,
+        searched: items.searched
     };
 };
 
-export default connect(mapStateToProps, null)(withStyles(styles)(SearchBar));
+const mdp = (dispatch) => {
+    return {
+        doSearch: (searched) => dispatch(doSearch(searched))
+    }
+};
+
+export default connect(msp, mdp)(withStyles(styles)(SearchBar));
