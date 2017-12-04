@@ -6,6 +6,7 @@ import Tabs, {Tab} from 'material-ui/Tabs';
 import Grid from 'material-ui/Grid';
 import PersonalDetails from './PersonalDetails';
 import PaymentDetails from './PaymentDetails';
+import PurchaseHistory from './PurchaseHistory';
 
 const styles = theme => ({
     root: theme.mixins.gutters({
@@ -49,6 +50,7 @@ class ProfilePage extends Component {
                             >
                                 <Tab label="Personal Details"/>
                                 <Tab label="Payment Details"/>
+                                <Tab label="Purchase History"/>
                             </Tabs>
                         </AppBar>
                         {value === 0 &&
@@ -57,6 +59,9 @@ class ProfilePage extends Component {
                         </TabContainer>}
                         {value === 1 && <TabContainer>
                             <PaymentDetails/>
+                        </TabContainer>}
+                        {value === 2 && <TabContainer>
+                            <PurchaseHistory/>
                         </TabContainer>}
                     </Grid>
                 </Grid>

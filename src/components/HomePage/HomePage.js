@@ -3,13 +3,13 @@ import {connect} from 'react-redux';
 import {Route, withRouter} from 'react-router-dom';
 import ProfilePage from '../ProfilePage/ProfilePage';
 import Checkout from '../Checkout/Checkout';
+import OrderComplete from '../Checkout/OrderComplete';
 
 import {withStyles} from 'material-ui/styles';
 
 import NavBar from './NavBar';
 import {doAuthentication, getUserProfileData} from "../../redux/actions/userAction";
 import ItemsList from "../Items/ItemsList";
-import {initCart} from "../../redux/actions/cartAction";
 
 const styles = theme => ({
     home: {
@@ -41,7 +41,7 @@ class HomePage extends Component {
                     />
                     <Route
                         exact
-                        path={`${this.props.match.path}/profile`}
+                        path={`${this.props.match.path}/profile/`}
                         render={() => {
                             if(this.props.isAuthenticated){
                                 return <ProfilePage/>
@@ -61,6 +61,17 @@ class HomePage extends Component {
                             }
                         }}
                     />
+                    <Route
+                        exact
+                        path={`${this.props.match.path}/ordercomplete`}
+                        render={() => {
+                            if(this.props.isAuthenticated){
+                                return <OrderComplete/>
+                            } else {
+                                return <div>You have landed on a wrong page..!!</div>
+                            }
+                        }}
+                    />
                 </div>
             </div>
         );
@@ -72,8 +83,7 @@ const mapStateToProps = (state) => {
     return {
         isAuthenticated: user.isAuthenticated,
         token: user.token,
-        profile: user.profile
-
+        profile: user.profile,
     }
 };
 
@@ -81,7 +91,6 @@ function mapDispatchToProps(dispatch){
     return {
         doAuthentication: () => dispatch(doAuthentication()),
         getUserProfileData: (token, profile) => dispatch(getUserProfileData(token, profile)),
-        initCart: (profile) => dispatch(initCart(profile))
     }
 }
 

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
@@ -18,6 +19,7 @@ import LocalOfferIcon from 'material-ui-icons/LocalOffer';
 import PaymentIcon from 'material-ui-icons/Payment';
 import OrderIcon from 'material-ui-icons/AssignmentTurnedIn';
 import Button from 'material-ui/Button';
+import {confirmPurchase} from "../../redux/actions/cartAction";
 
 
 const styles = theme => ({
@@ -65,7 +67,7 @@ class DeliveryPanel extends Component {
         expanded: null,
         delAddress: this.props.user.profile.address,
         promo: '',
-        paymentMehtod: this.props.user.profile.paymentMethods ? this.props.user.profile.paymentMethods[0] : {
+        paymentMethod: this.props.user.profile.paymentMethods ? this.props.user.profile.paymentMethods[0] : {
             cardnumber: '',
             month: '',
             year: '',
@@ -81,19 +83,39 @@ class DeliveryPanel extends Component {
         });
     };
 
+    handlePaymentChange = (event) => {
+        let value = event.target.value;
+        let id = event.target.id;
+
+        this.setState({
+            paymentMethod:{
+                [id]: value
+            }
+        });
+        event.stopPropagation();
+    };
+
+    handleConfirmPurchase = (profile, order) => {
+        order.timestamp = Date.now();
+        this.props.confirmPurchase(profile, order);
+        this.props.history.push('/home/ordercomplete');
+    };
+
     render() {
-        const { classes, user, subtotal } = this.props;
+        const { classes, user, cart } = this.props;
         const { expanded } = this.state;
 
 
+        let cartItems = cart.cartItems;
+        let subtotal = cart.subtotal;
         let paymentMethod;
         let cardNumber;
         let cardNumberDisp;
 
-        if(this.state.paymentMehtod){
-            paymentMethod = this.state.paymentMehtod;
+        if(this.state.paymentMethod){
+            paymentMethod = this.state.paymentMethod;
             cardNumber = paymentMethod.cardnumber;
-            cardNumberDisp = '************' + cardNumber.substr(cardNumber.length - 4);
+            cardNumberDisp = cardNumber? '************' + cardNumber.substr(cardNumber.length - 4) : '';
         }
 
         let delAddressDisp = this.state.delAddress;
@@ -101,6 +123,15 @@ class DeliveryPanel extends Component {
 
         let tax = (subtotal * (0.0925)).toFixed(2);
         let total = (parseFloat(subtotal) + parseFloat(tax)).toFixed(2);
+
+        let order = {
+            cartItems,
+            delAddress: this.state.delAddress,
+            paymentMethod,
+            subtotal,
+            tax,
+            total
+        };
 
         return (
             <div className={classes.root}>
@@ -145,7 +176,8 @@ class DeliveryPanel extends Component {
                                                         id="cardnumber"
                                                         type={'text'}
                                                         value={paymentMethod.cardnumber}
-                                                        onChange={this.handleChange('cardnumber')}
+                                                        onChange={(event) => this.handlePaymentChange(event)}
+                                                        onBlur={this.handleChange('panel2')}
                                                         endAdornment={
                                                             <InputAdornment position="end">
                                                                 <img alt="v" className={classes.paylogo} src="/images/desktop/gen/payment/visa.png"/>
@@ -165,7 +197,8 @@ class DeliveryPanel extends Component {
                                                         id="month"
                                                         type={'text'}
                                                         value={paymentMethod.month}
-                                                        onChange={this.handleChange('month')}
+                                                        onChange={(event) => this.handlePaymentChange(event)}
+                                                        onBlur={this.handleChange('panel2')}
                                                     />
                                                 </FormControl>
                                             </Grid>
@@ -176,7 +209,7 @@ class DeliveryPanel extends Component {
                                                         id="year"
                                                         type={'text'}
                                                         value={paymentMethod.year}
-                                                        onChange={this.handleChange('year')}
+                                                        onChange={(event) => this.handlePaymentChange(event)}
                                                     />
                                                 </FormControl>
                                             </Grid>
@@ -187,7 +220,8 @@ class DeliveryPanel extends Component {
                                                         id="cvv"
                                                         type={'password'}
                                                         value={paymentMethod.cvv}
-                                                        onChange={this.handleChange('cvv')}
+                                                        onChange={(event) => this.handlePaymentChange(event)}
+                                                        onBlur={this.handleChange('panel2')}
                                                     />
                                                 </FormControl>
                                             </Grid>
@@ -201,7 +235,8 @@ class DeliveryPanel extends Component {
                                                         id="cardholdername"
                                                         type={'text'}
                                                         value={paymentMethod.cardholdername}
-                                                        onChange={this.handleChange('cardholdername')}
+                                                        onChange={(event) => this.handlePaymentChange(event)}
+                                                        onBlur={this.handleChange('panel2')}
                                                     />
                                                 </FormControl>
                                             </Grid>
@@ -215,7 +250,8 @@ class DeliveryPanel extends Component {
                                                         id="billingaddress"
                                                         type={'text'}
                                                         value={paymentMethod.billingaddress}
-                                                        onChange={this.handleChange('billingaddress')}
+                                                        onChange={(event) => this.handlePaymentChange(event)}
+                                                        onBlur={this.handleChange('panel2')}
                                                     />
                                                 </FormControl>
                                             </Grid>
@@ -254,8 +290,8 @@ class DeliveryPanel extends Component {
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
                         <Grid container>
-                            <Grid item xs={0} md={8}/>
-                            <Grid item xs={12} md={4}>
+                            <Grid item xs={0} md={7}/>
+                            <Grid item xs={12} md={5}>
                                 <Grid container>
                                     <Grid item xs={12} md={5}>
                                         <Typography type="caption">Subtotal: </Typography>
@@ -301,7 +337,7 @@ class DeliveryPanel extends Component {
                                         className={classes.confirmBtn}
                                         raised
                                         color="primary"
-                                        onClick={() => this.handleConfirmPurchase()}
+                                        onClick={() => this.handleConfirmPurchase(user.profile, order)}
                                     >
                                         Confirm Purchase
                                     </Button>
@@ -323,14 +359,14 @@ const msp = (state) => {
     const {user, cart} = state;
     return {
         user,
-        subtotal: cart.subtotal,
+        cart,
     };
 };
 
 const mdp = (dispatch) => {
     return {
-
+        confirmPurchase: (profile, order) => dispatch(confirmPurchase(profile, order))
     }
 };
 
-export default connect(msp, null)(withStyles(styles)(DeliveryPanel));
+export default connect(msp, mdp)(withRouter(withStyles(styles)(DeliveryPanel)));

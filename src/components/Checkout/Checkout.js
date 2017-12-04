@@ -15,6 +15,7 @@ import RemoveCart from 'material-ui-icons/RemoveShoppingCart';
 
 import {getAllItems} from "../../redux/actions/itemsAction";
 import DeliveryPanel from './DeliveryPanel';
+import {removeItemFromCart, updateQtyOfCartItem} from "../../redux/actions/cartAction";
 
 const IMAGE_CDN = getConfig.get('prod').IMAGE_CDN;
 
@@ -176,7 +177,9 @@ const msp = (state) => {
 
 const mdp = (dispatch) => {
     return {
-        getAllItems: () => dispatch(getAllItems())
+        getAllItems: () => dispatch(getAllItems()),
+        removeItemFromCart: (profile, item) => dispatch(removeItemFromCart(profile, item)),
+        updateQtyOfCartItem: (profile, item, qty) => dispatch(updateQtyOfCartItem(profile, item, qty)),
     }
 };
 

@@ -7,6 +7,7 @@ export const ADD_TO_CART = 'ADD_TO_CART';
 export const REMOVE_ITEM = 'REMOVE_ITEM';
 export const UPDATE_QTY = 'UPDATE_QTY';
 export const INIT_CART = 'INIT_CART';
+export const CREATE_ORDER = 'CREATE_ORDER';
 
 const initiateCart = (cartArr) => {
     return {
@@ -34,6 +35,13 @@ const updateQty = (item, qty) => {
         type: UPDATE_QTY,
         item,
         qty
+    }
+};
+
+const createOrder = (order) => {
+    return {
+        type: CREATE_ORDER,
+        order
     }
 };
 
@@ -92,5 +100,18 @@ export const updateQtyOfCartItem = (profile, item, qty) => {
     }
 };
 
+
+export const confirmPurchase = (profile, order) => {
+    return (dispatch) => {
+        API.confirmPurchase(profile, order)
+            .then((resJSON) => {
+                dispatch(createOrder(order));
+            })
+            .catch((error) => {
+                console.log(error);
+                dispatch(errorOccured());
+            });
+    }
+};
 
 

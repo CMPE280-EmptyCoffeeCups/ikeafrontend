@@ -44,7 +44,7 @@ class PaymentDetails extends Component {
     constructor(props) {
         super(props);
         const {profile} = props;
-        const state = profile.paymentMethods ? profile.paymentMethods: {
+        const state = profile.paymentMethods ? profile.paymentMethods[0] : {
             cardnumber: '',
             month: '',
             year: '',

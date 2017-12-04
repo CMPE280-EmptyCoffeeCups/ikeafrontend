@@ -29,7 +29,6 @@ const styles = theme => ({
 });
 
 class ItemsList extends Component {
-
     componentDidMount(){
         this.props.getAllItems();
     }
@@ -87,14 +86,26 @@ ItemsList.propTypes = {
 
 const mapStateToProps = (state) => {
     const {items} = state.items;
+    const {cart} = state;
+
+    let itemArr = [];
+
+    for(let itemId in items){
+        if(items.hasOwnProperty(itemId)){
+            itemArr.push(items[itemId]);
+        }
+    }
+
     return {
-        items
+        items: itemArr,
+        cartArr: cart.cartItems
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getAllItems: () => dispatch(getAllItems())
+        getAllItems: () => dispatch(getAllItems()),
+        //markItemsInCart: (cartArr) => dispatch(markItemsInCart(cartArr))
     }
 };
 

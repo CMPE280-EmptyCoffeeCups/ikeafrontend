@@ -2,12 +2,13 @@ import {
     ADD_TO_CART,
     REMOVE_ITEM,
     UPDATE_QTY,
-    INIT_CART
+    INIT_CART, CREATE_ORDER
 } from "../actions/cartAction";
 
 const initialState = {
     cartItems: [],
-    subtotal: 0
+    subtotal: 0,
+    orders:{}
 };
 
 
@@ -38,12 +39,6 @@ const cart = (state = initialState, action) => {
 
             newItem.qty = 1;
             cartItems.push(newItem);
-
-            // newST = cartItems.reduce((st, item) => {
-            //     console.log(st);
-            //     console.log(item);
-            //     return st + item.itemTotal;
-            // });
 
             return {
                 ...state,
@@ -89,6 +84,18 @@ const cart = (state = initialState, action) => {
                 subtotal: newCartItemsUpdated.reduce((st, item) => {
                     return st + item.itemTotal;
                 }, 0).toFixed(2)
+            };
+
+        case CREATE_ORDER:
+
+            const newOrder = action.order;
+
+            return {
+                ...state,
+                orders: {
+                    ...state.orders,
+                    [newOrder.timestamp]: newOrder
+                }
             };
 
         default :

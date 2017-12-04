@@ -1,67 +1,75 @@
 import {
-    UPDATE_ITEMS_DATA
+    UPDATE_ITEMS_DATA,
+    MARK_ITMES_IN_CART
 } from "../actions/itemsAction";
 
 import {
-    ADD_TO_CART, INIT_CART,
+    ADD_TO_CART,
     REMOVE_ITEM
 } from '../actions/cartAction';
 
 const initialState = {
-    items: []
+    items: {}
 };
 
 
 const items = (state = initialState, action) => {
 
-    let newItems;
+    let newItems = {};
 
     switch (action.type){
         case UPDATE_ITEMS_DATA :
+
+            action.items.forEach((item) => {
+                newItems[item._id] = item;
+            });
+
             return {
                 ...state,
-                items: action.items
+                items: newItems
             };
 
         case ADD_TO_CART:
             const itemToCart = action.item;
 
-            newItems = state.items.map((item) => {
-                if(item._id === itemToCart._id){
-                    return {
-                        ...item,
+            return {
+                ...state,
+                items: {
+                    ...state.items,
+                    [itemToCart._id]:{
+                        ...state.items[itemToCart._id],
                         incart: true
                     }
                 }
-                return item;
-            });
-
-            return {
-                ...state,
-                items: newItems
             };
 
 
         case REMOVE_ITEM:
             const itemToRemove = action.item;
-            newItems = state.items.map((item) => {
-                if(item._id === itemToRemove._id){
-                    return {
-                        ...item,
+            return {
+                ...state,
+                items: {
+                    ...state.items,
+                    [itemToRemove._id]:{
+                        ...state.items[itemToRemove._id],
                         incart: false
                     }
                 }
-                return item;
+            };
+
+        case MARK_ITMES_IN_CART:
+            const cartItems = action.cartArr;
+
+            let newInitCartState = state.items;
+
+            cartItems.map((item) => {
+                newInitCartState[item._id].incart = true;
+                return null;
             });
 
             return {
-                ...state,
-                items: newItems
+                items: newInitCartState
             };
-
-        case INIT_CART:
-            const cartItems = action.cartArr;
-
 
         default :
             return state;

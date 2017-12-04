@@ -159,3 +159,22 @@ export const updateQtyOfCartItem = (profile, item, qty) => {
         }
     });
 };
+
+export const confirmPurchase = (profile, order) => {
+    return fetch(`${API}/cart/checkout`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json',
+            "cache-control": "no-cache"
+        },
+        body: JSON.stringify({
+            profile,
+            order
+        })
+    }).then(res => {
+        if (res.status !== 200) {
+            throw Error(res.status + " : " + res.statusText);
+        }
+    });
+};
