@@ -96,7 +96,8 @@ const cart = (state = initialState, action) => {
                     ...state.orders,
                     [newOrder.timestamp]: newOrder
                 },
-                cartItems: []
+                cartItems: [],
+                subtotal: 0
             };
 
         default :
