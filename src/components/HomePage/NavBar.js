@@ -8,7 +8,6 @@ import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
-import MenuIcon from 'material-ui-icons/Menu';
 import Avatar from 'material-ui/Avatar';
 import Popover from 'material-ui/Popover';
 import SearchIcon from 'material-ui-icons/Search';
@@ -93,9 +92,6 @@ class NavBar extends Component {
             <div className={classes.root}>
                 <AppBar position="static">
                     <Toolbar className={classes.toolBar}>
-                        <IconButton className={classes.menuButton}>
-                            <MenuIcon />
-                        </IconButton>
                         <Typography type="title" color="inherit">
                             <Link to="/home">
                                 <img
@@ -105,11 +101,11 @@ class NavBar extends Component {
                                 />
                             </Link>
                         </Typography>
-                        <Typography type="title" color="inherit" className={classes.flex}>
-                            <Link to="/home/tryitbeta">
-                                Try It! Beta
-                            </Link>
-                        </Typography>
+                        {/*<Typography type="body1" color="inherit" className={classes.flex}>*/}
+                            {/*<Link to="/home/tryitbeta">*/}
+                                {/*Try It! Beta*/}
+                            {/*</Link>*/}
+                        {/*</Typography>*/}
                         <div className={classes.searchcontainer}>
                             {this.state.searchOpen ? <SearchBar/> : ''}
                         </div>

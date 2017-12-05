@@ -7,6 +7,7 @@ import Grid from 'material-ui/Grid';
 import Carousel from './ItemCarousel';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
+import ClearIcon from 'material-ui-icons/Clear';
 
 import Item from './Item';
 import {doSearch, getAllItems} from "../../redux/actions/itemsAction";
@@ -25,6 +26,13 @@ const styles = theme => ({
     spinnerContainer:{
         height: 200,
         paddingTop: 75
+    },
+    clear:{
+        float: 'right'
+    },
+    loadmore:{
+        padding: 10,
+        width: '100%'
     }
 });
 
@@ -58,9 +66,23 @@ class ItemsList extends Component {
                 <Grid item xs={12} md={10}>
                     <Paper className={classes.root} elevation={4}>
                         <Grid container>
-                            <Grid item xs={12} md={12}>
+                            <Grid item xs={6} md={6}>
                                 <Typography className={classes.title} type='title'>
                                     {showingFor}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={6} md={6}>
+                                <Typography className={classes.clear} type='title'>
+                                    {searched !== '' && (
+                                        <Button
+                                            className={classes.button}
+                                                raised color="default"
+                                            onClick={() => this.props.doSearch('')}
+                                        >
+                                            Clear Search
+                                            <ClearIcon className={classes.rightIcon} />
+                                        </Button>
+                                    )}
                                 </Typography>
                             </Grid>
                         </Grid>
@@ -94,6 +116,12 @@ class ItemsList extends Component {
                             </Grid>
                             )
                         }
+
+                        <Grid container justify="center">
+                            <Grid item xs={12} md={4}>
+                                <Button className={classes.loadmore} raised color="primary">Load More Items</Button>
+                            </Grid>
+                        </Grid>
                     </Paper>
                 </Grid>
             </Grid>

@@ -50,14 +50,47 @@ class PaymentDetails extends Component {
             year: '',
             cvv: '',
             cardholdername: '',
-            billingaddress: ''
+            billingaddress: '',
+        };
+        state.error = {
+                error: false,
+                cardnumber: false,
+                mm: false,
+                yy: false,
+                cvv: false,
+                name: false,
+                billadd: false
         };
         state.savebuttondisabled = true;
         this.state = state;
     }
 
+    cc_format = (value) => {
+        let v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+        let matches = v.match(/\d{4,16}/g);
+        let match = (matches && matches[0]) || '';
+        let parts = [];
+        for (let i=0, len=match.length; i<len; i+=4) {
+            parts.push(match.substring(i, i+4))
+        }
+        if (parts.length) {
+            return parts.join(' ')
+        } else {
+            return value
+        }
+    };
 
     handleChange = (changed) => (event) => {
+
+        if(changed === 'cardnumber'){
+            this.setState({
+                [changed]: this.cc_format(event.target.value),
+                savebuttondisabled: false
+            });
+
+            return;
+        }
+
         this.setState({
             [changed]: event.target.value,
             savebuttondisabled: false
@@ -65,8 +98,80 @@ class PaymentDetails extends Component {
     };
 
     handleSaveChanges = () => {
+
         const {token} = this.props;
         const {cardnumber, month, year, cvv, cardholdername, billingaddress} = this.state;
+
+        this.setState({
+            ...this.state,
+            error:{
+                error: false,
+                cardnumber: false,
+                mm: false,
+                yy: false,
+                cvv: false,
+                name: false,
+                billadd: false
+            }
+        });
+
+        if(!cardnumber){
+            this.setState({
+                ...this.state,
+                error:{
+                    ...this.state.error.error,
+                    error: true,
+                    cardnumber: true
+                }
+            });
+        } else if(!month){
+            this.setState({
+                ...this.state,
+                error:{
+                    ...this.state.error.error,
+                    error: true,
+                    mm: true
+                }
+            });
+        } else if(!year){
+            this.setState({
+                ...this.state,
+                error:{
+                    ...this.state.error.error,
+                    error: true,
+                    yy: true
+                }
+            });
+        } else if(!cardholdername){
+            this.setState({
+                ...this.state,
+                error:{
+                    ...this.state.error.error,
+                    error: true,
+                    name: true
+                }
+            });
+        } else if(!cvv){
+            this.setState({
+                ...this.state,
+                error:{
+                    ...this.state.error.error,
+                    error: true,
+                    cvv: true
+                }
+            });
+        } else if(!billingaddress){
+            this.setState({
+                ...this.state,
+                error:{
+                    ...this.state.error.error,
+                    error: true,
+                    billadd: true
+                }
+            });
+        }
+
+
         const profile = {
             ...this.props.profile,
             paymentMethods: [{
@@ -78,10 +183,14 @@ class PaymentDetails extends Component {
                 billingaddress
             }]
         };
-        this.props.saveChanges(token, profile);
-        this.setState({
-            savebuttondisabled : true
-        });
+
+        if(!this.state.error.error){
+            this.props.saveChanges(token, profile);
+            this.setState({
+                savebuttondisabled : true
+            });
+        }
+
     };
 
     render() {
@@ -102,7 +211,7 @@ class PaymentDetails extends Component {
 
                             <Grid container justify="center">
                                 <Grid item xs={12} md={6}>
-                                    <FormControl className={classes.formControl}>
+                                    <FormControl className={classes.formControl} error={this.state.error.cardnumber}>
                                         <InputLabel htmlFor="cardnumber">Card Number</InputLabel>
                                         <Input
                                             id="cardnumber"
@@ -122,7 +231,7 @@ class PaymentDetails extends Component {
                             </Grid>
                             <Grid container justify="center">
                                 <Grid item xs={2} md={1}>
-                                    <FormControl className={classes.formControl}>
+                                    <FormControl className={classes.formControl} error={this.state.error.mm}>
                                         <InputLabel htmlFor="month">MM</InputLabel>
                                         <Input
                                             id="month"
@@ -133,7 +242,7 @@ class PaymentDetails extends Component {
                                     </FormControl>
                                 </Grid>
                                 <Grid item xs={2} md={1}>
-                                    <FormControl className={classes.formControl}>
+                                    <FormControl className={classes.formControl} error={this.state.error.yy}>
                                         <InputLabel htmlFor="month">YY</InputLabel>
                                         <Input
                                             id="year"
@@ -144,7 +253,7 @@ class PaymentDetails extends Component {
                                     </FormControl>
                                 </Grid>
                                 <Grid item xs={8} md={4}>
-                                    <FormControl className={classes.formControl}>
+                                    <FormControl className={classes.formControl} error={this.state.error.cvv}>
                                         <InputLabel htmlFor="cvv">CVV</InputLabel>
                                         <Input
                                             id="cvv"
@@ -158,7 +267,7 @@ class PaymentDetails extends Component {
 
                             <Grid container justify="center">
                                 <Grid item xs={12} md={6}>
-                                    <FormControl className={classes.formControl}>
+                                    <FormControl className={classes.formControl} error={this.state.error.name}>
                                         <InputLabel htmlFor="cardholdername">Card Holder's Name</InputLabel>
                                         <Input
                                             id="cardholdername"
@@ -172,7 +281,7 @@ class PaymentDetails extends Component {
 
                             <Grid container justify="center">
                                 <Grid item xs={12} md={6}>
-                                    <FormControl className={classes.formControl}>
+                                    <FormControl className={classes.formControl} error={this.state.error.billadd}>
                                         <InputLabel htmlFor="billingaddress">Billing Address</InputLabel>
                                         <Input
                                             id="billingaddress"

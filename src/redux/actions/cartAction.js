@@ -1,7 +1,7 @@
 
 import * as API from '../../api/ApiClient';
 
-import {errorOccured} from './UIAction';
+import {errorOccured, openMessage} from './UIAction';
 
 export const ADD_TO_CART = 'ADD_TO_CART';
 export const REMOVE_ITEM = 'REMOVE_ITEM';
@@ -64,6 +64,7 @@ export const addItemToCart = (profile, item) => {
         API.addItemToCart(profile, item)
             .then((resJSON) => {
                 dispatch(addToCart(item));
+                dispatch(openMessage('Item added to cart.'));
             })
             .catch((error) => {
                 console.error(error);
@@ -76,7 +77,6 @@ export const removeItemFromCart = (profile, item) => {
     return (dispatch) => {
         API.removeItemFromCart(profile, item)
             .then((resJSON) => {
-                console.log(resJSON);
                 dispatch(removeItem(item));
             })
             .catch((error) => {

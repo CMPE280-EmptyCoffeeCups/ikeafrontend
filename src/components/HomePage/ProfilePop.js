@@ -58,7 +58,7 @@ class ProfilePop extends Component {
                             <Avatar>
                                 <EditIcon/>
                             </Avatar>
-                            <ListItemText primary="Edit Profile"/>
+                            <ListItemText primary="My Profile"/>
 
                         </ListItem>
                     </Link>

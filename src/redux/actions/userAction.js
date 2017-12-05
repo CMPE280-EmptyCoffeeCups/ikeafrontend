@@ -1,7 +1,7 @@
 import Auth0Lock from 'auth0-lock';
 import * as API from '../../api/ApiClient';
 
-import {errorOccured} from './UIAction';
+import {errorOccured, openMessage} from './UIAction';
 
 export const SHOW_LOCK = 'SHOW_LOCK';
 export const LOCK_SUCCESS = 'LOCK_SUCCESS';
@@ -116,6 +116,7 @@ export const doLogout = () => {
         localStorage.removeItem('profile');
         localStorage.removeItem('id_token');
         dispatch(logoutSuccess());
+        dispatch(openMessage('Logged out.'));
     }
 };
 
@@ -139,6 +140,7 @@ export const updateProfile = (token, profile) => {
         API.postUpdateProfile(token, profile)
             .then(() => {
                 dispatch(setProfileData(profile));
+                dispatch(openMessage("Changes saved."));
             })
             .catch((error) => {
                 console.error(error);
@@ -154,6 +156,7 @@ export const deleteProfile = (token, email) => {
                 localStorage.removeItem('profile');
                 localStorage.removeItem('id_token');
                 dispatch(removeProfileData());
+                dispatch(openMessage("User Deleted."))
             })
             .catch((error) => {
                 console.error(error);
