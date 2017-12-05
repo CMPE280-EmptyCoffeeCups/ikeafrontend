@@ -116,12 +116,6 @@ class ItemsList extends Component {
                             </Grid>
                             )
                         }
-
-                        <Grid container justify="center">
-                            <Grid item xs={12} md={4}>
-                                <Button className={classes.loadmore} raised color="primary">Load More Items</Button>
-                            </Grid>
-                        </Grid>
                     </Paper>
                 </Grid>
             </Grid>
