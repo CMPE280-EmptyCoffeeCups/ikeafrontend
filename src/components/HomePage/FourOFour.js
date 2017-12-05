@@ -19,7 +19,7 @@ const styles = theme => ({
     }
 });
 
-class TryItBeta extends Component {
+class FourOFour extends Component {
 
     render() {
         const {classes} = this.props;
@@ -28,7 +28,7 @@ class TryItBeta extends Component {
             <Grid container justify="center">
                 <Grid item xs={12} md={10}>
                         <Grid container className={classes.spinnerContainer} justify='center'>
-                            <Grid item xs={12} md={7}>
+                            <Grid item xs={12} md={8}>
                                 <img alt='404' src={'/images/desktop/gen/404.jpg'}/>
                             </Grid>
                         </Grid>
@@ -38,10 +38,10 @@ class TryItBeta extends Component {
     }
 }
 
-TryItBeta.propTypes = {
+FourOFour.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
 
 
-export default (withStyles(styles)(TryItBeta));
+export default (withStyles(styles)(FourOFour));

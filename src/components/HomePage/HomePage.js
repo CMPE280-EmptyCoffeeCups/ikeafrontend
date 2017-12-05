@@ -8,6 +8,7 @@ import FourOFour from './FourOFour';
 import TryItBeta from './TryItBeta';
 import Snackbar from 'material-ui/Snackbar';
 import Button from 'material-ui/Button';
+import WrongPage from './WrongPage';
 
 import {withStyles} from 'material-ui/styles';
 
@@ -70,7 +71,7 @@ class HomePage extends Component {
                                 if (this.props.isAuthenticated) {
                                     return <ProfilePage/>
                                 } else {
-                                    return <div>You have landed on a wrong page..!!</div>
+                                    return <WrongPage/>;
                                 }
                             }}
                         />
@@ -81,7 +82,7 @@ class HomePage extends Component {
                                 if (this.props.isAuthenticated) {
                                     return <Checkout/>
                                 } else {
-                                    return <div>You have landed on a wrong page..!!</div>
+                                    return <WrongPage/>;
                                 }
                             }}
                         />
@@ -92,7 +93,7 @@ class HomePage extends Component {
                                 if (this.props.isAuthenticated) {
                                     return <OrderComplete/>
                                 } else {
-                                    return <div>You have landed on a wrong page..!!</div>
+                                    return <WrongPage/>;
                                 }
                             }}
                         />
